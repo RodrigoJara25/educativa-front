@@ -1,0 +1,51 @@
+.layout{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 5px;
+    .layout-80{
+        width: 80%;
+        height: 100%;
+        background-color: #A2CE46;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .layout-margin {
+            width: 95%;
+            height: 100%;
+            div {
+                display: flex;
+                flex-direction: row;
+                .categorias-menu {
+                    width: 200px;
+                    ul {
+                        display: flex;
+                        flex-direction: column;
+                        list-style: none;
+                        gap: 10px;
+                        padding-top: 40%;
+                        padding-left: 10px;
+                        width: 100%;
+                        height: auto;
+                        li {
+                            height: 20px;
+                            cursor: pointer;
+                            color: white;
+                            background-color: #EC008C;
+                            text-align: center;
+                            padding: 5px 0;
+                            border-radius: 10px;
+                            display: flex;           
+                            justify-content: center; 
+                            align-items: center;     
+                        }
+                    }
+                }
+                .contenido{
+                    width: 70%;
+                }
+            }
+        }
+    }
+}

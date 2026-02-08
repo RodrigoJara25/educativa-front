@@ -1,0 +1,13 @@
+.header {
+    height: 30%;
+    width: 100%;
+    display: flex;            // Activa el modo Flex
+    justify-content: center; // Centra horizontalmente
+    align-items: center;     // Centra verticalmente
+    flex-direction: column;
+    .header-image {
+        background-image: url(../../assets/images/header.png);
+        height: 75%;
+        width: 100%;
+    }
+}

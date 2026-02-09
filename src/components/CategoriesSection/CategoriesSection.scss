@@ -1,0 +1,61 @@
+.categories-container {
+    height: 16.875rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .categories-section {
+        width: 80%;
+        background-color: #A2CE46;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .categories-div {
+            background-color: #D3DA3D;
+            height: fit-content;
+            padding: 13px 0;
+            width: 95%;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .categories-margin {
+                width: 95%;
+                height: fit-content;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+
+                .categorias-text {
+                    padding-left: 40px;
+                    height: 30px;
+                }
+
+                .categorias-menu-carrusel {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: space-between;
+                    height: fit-content;
+                    gap: 20px;
+
+                    .carrusel-categorias {
+                        width: calc(100% - 200px);
+                        display: flex;
+                        flex-direction: row;
+                        min-width: 0;
+                        align-items: center;
+                    }
+
+                    .categorias-hormiga {
+                        width: 200px;
+                        height: auto;
+                    }
+                }
+            }
+        }
+    }
+}
+

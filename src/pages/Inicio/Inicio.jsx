@@ -1,5 +1,6 @@
 import "./Inicio.scss"
 import Layout from "../../components/Layout/Layout";
+import CategoriesSection from "../../components/CategoriesSection/CategoriesSection";
 
 function Inicio() {
     return (
@@ -7,6 +8,7 @@ function Inicio() {
         <Layout>
             
         </Layout>
+        <CategoriesSection></CategoriesSection>
         </>
     )
 }

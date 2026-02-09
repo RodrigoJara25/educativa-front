@@ -1,4 +1,5 @@
 import "./Layout.scss"
+import Carrusel from "../Carrusel/Carrusel";
 
 function Layout({ children }) {
     const categorias = ['Diccionarios', 'Láminas', 'Cuentos Clásicos', 'Obras Literarias', 'Cuentos Selectos', 'Cuentos Ecológicos', 'Cuentos Educativos', 'Cuentos Infantiles']
@@ -19,8 +20,8 @@ function Layout({ children }) {
                                 }
                             </ul>
                         </div>
-                        <div className="contenido">
-
+                        <div className="carrusel-layout">
+                            <Carrusel />
                         </div>
                     </div>
                 </div>

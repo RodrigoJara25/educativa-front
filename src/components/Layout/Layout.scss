@@ -10,24 +10,30 @@
         background-color: #A2CE46;
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
         .layout-margin {
             width: 95%;
-            height: 100%;
+            height: calc(100% - 20px);
+            margin-top: 20px;
             div {
                 display: flex;
                 flex-direction: row;
+                align-items: flex-start;
+                // gap: 1vw;
                 .categorias-menu {
                     width: 200px;
+                    display: flex;
+                    flex-direction: row;
                     ul {
                         display: flex;
                         flex-direction: column;
                         list-style: none;
                         gap: 10px;
-                        padding-top: 40%;
+                        // margin-top: clamp(10px, 9vh, 120px);
+                        margin-top: 102px;
                         padding-left: 10px;
                         width: 100%;
-                        height: auto;
+                        height: fit-content;
                         li {
                             height: 20px;
                             cursor: pointer;
@@ -42,8 +48,11 @@
                         }
                     }
                 }
-                .contenido{
-                    width: 70%;
+                .carrusel-layout{
+                    width: calc(100% - 200px);
+                    min-width: 0; // importante en flex para evitar overflow
+                    // overflow: hidden; // recorta cualquier desborde
+                    margin-left: 2vw;
                 }
             }
         }

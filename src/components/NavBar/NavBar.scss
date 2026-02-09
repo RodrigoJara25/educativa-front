@@ -1,6 +1,6 @@
 .navbar {
     background-color: #EC008C;
-    height: 25%;
+    height: 50px;
     width: 80%;
     display: flex;
     flex-direction: row;
@@ -8,19 +8,21 @@
     align-items: center;
     .logo {
         width: 20%;
+        max-width: 250px;
+        padding-left: 80px;
         display: flex;
-        justify-content: center;
+        justify-content: flex-end;
         align-items: center;
         .logo-img {
-            margin-left: 5%;
+            margin-left: 7%;
             width: 100%;      // Ocupa el 100% del ancho de su contenedor (el div padre)
-            max-width: 600px; // ¡OJO! No crecerá más de esto aunque la pantalla sea gigante
+            max-width: 250px; // ¡OJO! No crecerá más de esto aunque la pantalla sea gigante
             height: auto;     // Mantiene la proporción original (evita que se vea estirada)
             z-index: 999;
         }
     }
     .paginas {
-        width: 60%;
+        width: 50%;
         margin-left: 25px;
         ul {
             display: flex;
@@ -36,7 +38,8 @@
         }
     }
     .redes-sociales {
-        width: 10%;
+        width: 30%;
+        padding-right: 20px;
         ul {
             display: flex;
             // justify-content: center;

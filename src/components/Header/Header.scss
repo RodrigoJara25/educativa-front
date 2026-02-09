@@ -1,5 +1,5 @@
 .header {
-    height: 30%;
+    height: 200px;
     width: 100%;
     display: flex;            // Activa el modo Flex
     justify-content: center; // Centra horizontalmente
@@ -7,7 +7,7 @@
     flex-direction: column;
     .header-image {
         background-image: url(../../assets/images/header.png);
-        height: 75%;
+        height: 150px;
         width: 100%;
     }
 }

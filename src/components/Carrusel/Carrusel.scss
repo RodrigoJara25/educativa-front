@@ -1,0 +1,66 @@
+.carrusel {
+    width: 100%;
+    height: auto;
+  }
+  
+  .carrusel .swiper,
+  .carrusel .swiper-wrapper,
+  .carrusel .swiper-slide {
+    width: 100%;
+  }
+  
+  .carrusel .swiper {
+    position: relative;
+    overflow: hidden;
+    --swiper-theme-color: #fff;
+  }
+  
+  /* Botones */
+  .carrusel .swiper-button-prev,
+  .carrusel .swiper-button-next {
+    width: 40px;
+    height: 40px;
+    border-radius: 9999px;
+    background: rgba(0, 0, 0, 0.45);
+    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  
+    /* variable para quien la respete */
+    --swiper-navigation-size: 18px;
+  
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 2;
+  }
+  
+  .carrusel .swiper-button-prev { left: 12px; }
+  .carrusel .swiper-button-next { right: 12px; }
+  
+  /* Fuerza tamaño del ícono (gana a Swiper.css) */
+  .carrusel .swiper .swiper-button-prev::after,
+  .carrusel .swiper .swiper-button-next::after {
+    font-size: 18px !important;
+    line-height: 1;
+  }
+  
+  /* Hover/disabled */
+  .carrusel .swiper-button-prev:hover,
+  .carrusel .swiper-button-next:hover {
+    background: rgba(0, 0, 0, 0.65);
+  }
+  
+  .carrusel .swiper-button-disabled {
+    opacity: 0.35;
+    pointer-events: none;
+  }
+  
+  /* Imágenes responsivas */
+  .carrusel img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: center;
+  }

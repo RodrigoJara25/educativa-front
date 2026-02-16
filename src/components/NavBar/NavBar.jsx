@@ -7,44 +7,47 @@ import pedidos_distribuidores from "../../assets/images/pedidos_distribuidores.p
 import contactenos from "../../assets/images/contactenos.png"
 import tiktok from "../../assets/images/tiktok-logo.png"
 import facebook from "../../assets/images/fb-logo.png"
+import { Link } from 'react-router-dom'
 
 function NavBar() {
     return (
         <>
-        <div className='navbar'>
-            <div className='logo'>
-                <img src={logoEducativa} alt="logo" className='logo-img'/>
+            <div className='navbar'>
+                <div className='logo'>
+                    <img src={logoEducativa} alt="logo" className='logo-img' />
+                </div>
+                <div className='paginas'>
+                    <ul>
+                        <li>
+                            <Link to="/">
+                                <img src={inicio} alt="inicio" />
+                            </Link>
+                        </li>
+                        <li>
+                            <img src={quienes_somos} alt="quienes-somos" />
+                        </li>
+                        <li>
+                            <img src={productos} alt="productos" />
+                        </li>
+                        <li>
+                            <img src={pedidos_distribuidores} alt="pedidos-distribuidores" />
+                        </li>
+                        <li>
+                            <img src={contactenos} alt="contactenos" />
+                        </li>
+                    </ul>
+                </div>
+                <div className='redes-sociales'>
+                    <ul>
+                        <li>
+                            <img src={tiktok} alt="tiktok" />
+                        </li>
+                        <li>
+                            <img src={facebook} alt="facebook" />
+                        </li>
+                    </ul>
+                </div>
             </div>
-            <div className='paginas'>
-                <ul>
-                    <li>
-                        <img src={inicio} alt="inicio" />
-                    </li>
-                    <li>
-                        <img src={quienes_somos} alt="quienes-somos" />
-                    </li>
-                    <li>
-                        <img src={productos} alt="productos" />
-                    </li>
-                    <li>
-                        <img src={pedidos_distribuidores} alt="pedidos-distribuidores" />
-                    </li>
-                    <li>
-                        <img src={contactenos} alt="contactenos" />
-                    </li>
-                </ul>
-            </div>
-            <div className='redes-sociales'>
-                <ul>
-                    <li>
-                        <img src={tiktok} alt="tiktok" />
-                    </li>
-                    <li>
-                        <img src={facebook} alt="facebook" />
-                    </li>
-                </ul>
-            </div>
-        </div>
         </>
     )
 }

@@ -1,15 +1,19 @@
-import { useState } from 'react'
 import './App.scss'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Header from './components/Header/Header'
 import Inicio from './pages/Inicio/Inicio'
 
 function App() {
   return (
     <>
-    <div className='app'>
-      <Header/>
-      <Inicio></Inicio>
-    </div>
+      <BrowserRouter>
+        <div className='app'>
+          <Header />
+          <Routes>
+            <Route path="/" element={<Inicio />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
     </>
   )
 }

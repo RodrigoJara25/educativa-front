@@ -24,16 +24,24 @@ function NavBar() {
                             </Link>
                         </li>
                         <li>
-                            <img src={quienes_somos} alt="quienes-somos" />
+                            <Link to="/quienes-somos">
+                                <img src={quienes_somos} alt="quienes-somos" />
+                            </Link>
                         </li>
                         <li>
-                            <img src={productos} alt="productos" />
+                            <Link to="/productos">
+                                <img src={productos} alt="productos" />
+                            </Link>
                         </li>
                         <li>
-                            <img src={pedidos_distribuidores} alt="pedidos-distribuidores" />
+                            <Link to="/pedidos-distribuidores">
+                                <img src={pedidos_distribuidores} alt="pedidos-distribuidores" />
+                            </Link>
                         </li>
                         <li>
-                            <img src={contactenos} alt="contactenos" />
+                            <Link to="/contactenos">
+                                <img src={contactenos} alt="contactenos" />
+                            </Link>
                         </li>
                     </ul>
                 </div>

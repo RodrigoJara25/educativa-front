@@ -1,10 +1,16 @@
-import "QuienesSomos.scss"
+import "./QuienesSomos.scss"
+import Layout from "../../components/Layout/Layout";
+import CategoriesSection from "../../components/CategoriesSection/CategoriesSection";
+import QuienesSomosSection from "../../components/QuienesSomosSection/QuienesSomosSection";
 
 function QuienesSomos() {
     return (
-        <div>
-            <h1>Quienes Somos</h1>
-        </div>
+        <>
+            <Layout>
+                <QuienesSomosSection />
+            </Layout>
+            <CategoriesSection />
+        </>
     )
 }
 

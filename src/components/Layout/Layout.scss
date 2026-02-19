@@ -1,27 +1,32 @@
-.layout{
+.layout {
     width: 100%;
     display: flex;
     justify-content: center;
     height: fit-content;
     margin-top: 5px;
-    .layout-80{
+
+    .layout-80 {
         width: 80%;
         background-color: #A2CE46;
         display: flex;
         justify-content: center;
         align-items: flex-start;
+
         .layout-margin {
             width: 95%;
             margin-top: 20px;
-            div {
+
+            .layout-container {
                 display: flex;
                 flex-direction: row;
                 align-items: flex-start;
+
                 // gap: 1vw;
                 .categorias-menu {
                     width: 200px;
                     display: flex;
                     flex-direction: row;
+
                     ul {
                         display: flex;
                         flex-direction: column;
@@ -32,6 +37,7 @@
                         padding-left: 10px;
                         width: 100%;
                         height: fit-content;
+
                         li {
                             height: 20px;
                             cursor: pointer;
@@ -40,16 +46,16 @@
                             text-align: center;
                             padding: 5px 0;
                             border-radius: 10px;
-                            display: flex;           
-                            justify-content: center; 
-                            align-items: center;     
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
                         }
                     }
                 }
-                .carrusel-layout{
+
+                .carrusel-layout {
                     width: calc(100% - 200px);
                     min-width: 0; // importante en flex para evitar overflow
-                    // overflow: hidden; // recorta cualquier desborde
                     margin-left: 2vw;
                 }
             }

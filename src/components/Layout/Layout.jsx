@@ -7,7 +7,7 @@ function Layout({ children }) {
             <div className="layout">
                 <div className="layout-80">
                     <div className="layout-margin">
-                        <div>
+                        <div className="layout-container">
                             <div className="categorias-menu">
                                 <ul>
                                     {

@@ -1,8 +1,17 @@
-.quienes-somos-text {
-    text-align: left;
+.div-quienes-somos-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 50px;
 
-    span {
-        font-size: 19px;
-        font-style: italic;
+    .quienes-somos-text {
+        text-align: left;
+
+        span {
+            font-size: 19px;
+            font-style: italic;
+        }
     }
 }

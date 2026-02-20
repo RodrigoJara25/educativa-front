@@ -11,7 +11,7 @@ function PageSection({ headerImg, headerAlt, children }) {
                     <img src={headerImg} alt={headerAlt} className="page-section-header" />
                 </div>
                 <div className="linea-marron"></div>
-                <div className="div-texto">
+                <div className="div-contenido">
                     {children}  {/* ← contenido diferente por página */}
                 </div>
             </div>

@@ -29,7 +29,7 @@ function NavBar() {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/productos">
+                            <Link to="/nuestros-productos">
                                 <img src={productos} alt="productos" />
                             </Link>
                         </li>

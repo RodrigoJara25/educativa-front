@@ -1,0 +1,21 @@
+.categories-section {
+    width: 100%;
+
+    .categories-container {
+        width: 100%;
+        margin-top: 20px; // tiene que ser 20px menos que abajo
+        margin-bottom: 40px;
+        height: auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+        gap: 30px;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .category-card-image {
+        width: 100%;
+        height: 260px;
+        object-fit: contain;
+    }
+}

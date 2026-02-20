@@ -18,8 +18,16 @@ function NuestrosProductosSection() {
     return (
         <>
             <PageSection headerImg={nuestrosproductos} headerAlt="Nuestros Productos">
+                <div className="categories-section">
+                    <div className="categories-container">
+                        {
+                            categoriesImgs.map((img, index) => {
+                                return <img className="category-card-image" src={img} alt={index} index={index} />
+                            })
+                        }
+                    </div>
 
-
+                </div>
             </PageSection>
 
 

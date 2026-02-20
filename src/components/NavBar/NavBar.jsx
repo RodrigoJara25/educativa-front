@@ -34,13 +34,13 @@ function NavBar() {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/pedidos-distribuidores">
-                                <img src={pedidos_distribuidores} alt="pedidos-distribuidores" />
+                            <Link to="/contactenos">
+                                <img src={contactenos} alt="contactenos" />
                             </Link>
                         </li>
                         <li>
-                            <Link to="/contactenos">
-                                <img src={contactenos} alt="contactenos" />
+                            <Link to="/pedidos-distribuidores">
+                                <img src={pedidos_distribuidores} alt="pedidos-distribuidores" />
                             </Link>
                         </li>
                     </ul>

@@ -1,13 +1,26 @@
 .header {
     height: 200px;
     width: 100%;
-    display: flex;            // Activa el modo Flex
+    display: flex; // Activa el modo Flex
     justify-content: center; // Centra horizontalmente
-    align-items: center;     // Centra verticalmente
+    align-items: center; // Centra verticalmente
     flex-direction: column;
+
     .header-image {
         background-image: url(../../assets/images/header.png);
         height: 150px;
         width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .user-card-container {
+            width: 80%;
+            height: 100%;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            margin-right: 70px;
+        }
     }
 }

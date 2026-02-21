@@ -1,0 +1,48 @@
+.contactenos-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 20px 0 40px 0;
+
+    .form-group-contactenos {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+
+        label {
+            font-size: 14px;
+        }
+
+        input {
+            width: 200px;
+            padding: 6px 8px;
+            border: 1px solid #999;
+            background-color: white;
+            font-size: 14px;
+        }
+
+        textarea {
+            width: 100%;
+            max-width: 500px;
+            padding: 6px 8px;
+            border: 1px solid #999;
+            background-color: white;
+            font-size: 14px;
+            resize: vertical;
+            /* solo se puede agrandar verticalmente */
+        }
+    }
+
+    button[type="submit"] {
+        width: fit-content;
+        padding: 6px 16px;
+        border: 1px solid #999;
+        background-color: #f0f0f0;
+        cursor: pointer;
+        font-size: 14px;
+
+        &:hover {
+            background-color: #e0e0e0;
+        }
+    }
+}

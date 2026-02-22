@@ -1,11 +1,11 @@
 import "./ContactenosSection.scss"
 import PageSection from "../PageSection/PageSection"
-import contactenosImg from "../../assets/headers/contactenos.png"
+import contactenosImg from "../../assets/headers/contactenos.svg"
 
 function ContactenosSection() {
     return (
         <>
-            <PageSection headerImg={contactenosImg} headerAlt="Contactenos">
+            <PageSection headerImg={contactenosImg} headerAlt="Contactenos" variant="new">
                 <form className="contactenos-form">
                     <div className="form-group-contactenos">
                         <label htmlFor="nombre">Nombre:</label>

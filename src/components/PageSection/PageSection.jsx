@@ -1,18 +1,18 @@
 import "./PageSection.scss"
 import bgImage from "../../assets/headers/bg-section.png"
 
-function PageSection({ headerImg, headerAlt, children }) {
+function PageSection({ headerImg, headerAlt, children, variant = "old" }) {
     return (
         <div className="page-section">
             <div className="div-verde"></div>
             <div className="div-contenedor">
                 <div className="page-section-images">
                     <img src={bgImage} alt="" className="bgImage" />
-                    <img src={headerImg} alt={headerAlt} className="page-section-header" />
+                    <img src={headerImg} alt={headerAlt} className={`page-section-header ${variant}`} />
                 </div>
                 <div className="linea-marron"></div>
                 <div className="div-contenido">
-                    {children}  {/* ← contenido diferente por página */}
+                    {children}
                 </div>
             </div>
         </div>

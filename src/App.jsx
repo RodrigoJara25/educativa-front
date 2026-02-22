@@ -6,6 +6,7 @@ import Footer from './components/Footer/Footer'
 import QuienesSomos from './pages/QuienesSomos/QuienesSomos'
 import NuestrosProductos from './pages/NuestrosProductos/NuestrosProductos'
 import Contactenos from './pages/Contactenos/Contactenos'
+import PedidosDistribuidores from './pages/PedidosDistribuidores/PedidosDistribuidores'
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/quienes-somos" element={<QuienesSomos />} />
             <Route path="/nuestros-productos" element={<NuestrosProductos />} />
             <Route path="/contactenos" element={<Contactenos />} />
+            <Route path="/pedidos-distribuidores" element={<PedidosDistribuidores />} />
           </Routes>
           <Footer />
         </div>

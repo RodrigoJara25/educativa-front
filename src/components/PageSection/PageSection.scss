@@ -1,15 +1,11 @@
 .page-section {
     width: 100%;
-    /* ocupa todo el ancho del carrusel-layout */
     height: auto;
-    /* altura según su contenido */
     background-color: #FFFCD5;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    /* centra horizontalmente */
     align-items: center;
-    /* centra verticalmente */
 
     .div-verde {
         background-color: #7AB433;
@@ -45,8 +41,16 @@
                 transform: translate(-50%, -50%);
                 /* centrado perfecto */
                 /* ajusta el tamaño según necesites: */
-                width: 20vw;
                 height: auto;
+
+                &.old {
+                    width: 20vw;
+                }
+
+                &.new {
+                    width: 16vw;
+                    margin-top: 30px;
+                }
             }
         }
 

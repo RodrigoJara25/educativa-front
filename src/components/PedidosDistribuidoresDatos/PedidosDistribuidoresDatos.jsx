@@ -1,11 +1,11 @@
-import "./PedidosDistribuidoresLayout.scss";
+import "./PedidosDistribuidoresDatos.scss";
 import PageSection from "../PageSection/PageSection";
 import pedidosdistribuidores from "../../assets/headers/pedidosdistribuidores.svg";
 
 import ubigeo from "ubigeo-peru";
 import { useState } from "react";
 
-function PedidosDistribuidoresLayout() {
+function PedidosDistribuidoresDatos({ onContinuar }) {
 
     const data = ubigeo.reniec;
 
@@ -103,7 +103,7 @@ function PedidosDistribuidoresLayout() {
                                     <label>Referencia:</label>
                                     <input type="text" />
                                 </div>
-                                <button type="submit" className="btn-continuar">CONTINUAR</button>
+                                <button type="button" className="btn-continuar" onClick={onContinuar}>CONTINUAR</button>
                             </form>
                         </PageSection>
                     </div>
@@ -113,4 +113,4 @@ function PedidosDistribuidoresLayout() {
     );
 }
 
-export default PedidosDistribuidoresLayout;
+export default PedidosDistribuidoresDatos;

@@ -1,11 +1,13 @@
 import "./PedidosDistribuidores.scss";
-import PedidosDistribuidoresLayout from "../../components/PedidosDistribuidoresLayout/PedidosDistribuidoresLayout";
+import PedidosDistribuidoresDatos from "../../components/PedidosDistribuidoresDatos/PedidosDistribuidoresDatos";
+import { useState } from "react";
 
 
 function PedidosDistribuidores() {
+    const [step, setStep] = useState(1);
     return (
         <>
-            <PedidosDistribuidoresLayout />
+            {step === 1 && <PedidosDistribuidoresDatos onContinuar={() => setStep(2)} />}
         </>
     );
 }

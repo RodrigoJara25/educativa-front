@@ -1,5 +1,6 @@
 .div-pedidos-distribuidores-layout {
     width: 100%;
+    height: auto;
     display: flex;
     justify-content: center;
 
@@ -83,6 +84,7 @@
     }
 
     .btn-continuar {
+        align-self: flex-end;
         margin-top: 16px;
         width: fit-content;
         padding: 8px 24px;
@@ -95,7 +97,7 @@
         letter-spacing: 1px;
 
         &:hover {
-            background-color: #c3e6cb;
+            background-color: #0db534;
         }
     }
 }

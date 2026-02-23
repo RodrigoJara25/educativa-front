@@ -1,12 +1,13 @@
 * {
   margin: 0;
   padding: 0;
-  height: 100%;
+
 }
 
 body {
-  font-family: 'Comic Sans MS'; 
+  font-family: 'Comic Sans MS';
   font-size: 14px;
   background-color: #f4f4f4;
   color: #333;
+  min-height: 100vh;
 }

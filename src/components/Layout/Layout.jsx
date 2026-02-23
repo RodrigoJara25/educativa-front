@@ -19,7 +19,7 @@ function Layout({ children }) {
                                     }
                                 </ul>
                             </div>
-                            <div className="carrusel-layout">
+                            <div className="layout-general">
                                 {children}
                             </div>
                         </div>

@@ -1,8 +1,70 @@
-.page-section-images {
-    .page-section-titulo {
-        color: white;
-        font-size: 2rem;
-        text-align: center;
-        margin: 0;
+@use "../../styles/mixins" as *;
+
+.div-page-section-distribuidores {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: auto;
+
+    .page-section-distribuidores {
+        width: 80%;
+        height: auto;
+        background-color: #FFFCD5;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        .div-verde-page-section-distribuidores {
+            background-color: #7AB433;
+            height: 30px;
+            width: 100%;
+        }
+
+        .div-contenedor-page-section-distribuidores {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+
+            .page-section-header-distribuidores {
+                .page-section-titulo-distribuidores {
+                    font-size: 32px;
+                    font-weight: bold;
+                    margin-top: 70px;
+                    margin-bottom: 20px;
+                }
+            }
+
+            .botones-continuar-anterior {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                width: 90%;
+                margin-bottom: 20px;
+
+                .btn-anterior {
+                    @include btn-continuar-retroceder;
+                }
+
+                .btn-continuar {
+                    @include btn-continuar-retroceder;
+                }
+            }
+
+            .linea-marron-distribuidores {
+                width: 95%;
+                height: 1px;
+                background-color: #7AB433;
+                margin-bottom: 20px;
+            }
+
+            .div-contenido-distribuidores {
+                width: 90%;
+                margin-top: 30px;
+                margin-bottom: 30px;
+            }
+        }
     }
 }

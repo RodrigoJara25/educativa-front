@@ -1,3 +1,5 @@
+@use "../../styles/mixins" as *;
+
 .div-pedidos-distribuidores-layout {
     width: 100%;
     height: auto;
@@ -84,20 +86,6 @@
     }
 
     .btn-continuar {
-        align-self: flex-end;
-        margin-top: 16px;
-        width: fit-content;
-        padding: 8px 24px;
-        background-color: #A2CE46;
-        color: white;
-        border: none;
-        font-weight: bold;
-        font-size: 12px;
-        cursor: pointer;
-        letter-spacing: 1px;
-
-        &:hover {
-            background-color: #0db534;
-        }
+        @include btn-continuar-retroceder;
     }
 }

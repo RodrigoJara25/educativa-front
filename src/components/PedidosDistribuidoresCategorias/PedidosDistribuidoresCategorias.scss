@@ -1,0 +1,77 @@
+.div-pedidos-distribuidores-categorias {
+    width: 100%;
+    padding: 40px 0 40px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #D3DA3D;
+    border-radius: 25px;
+    margin-bottom: 20px;
+
+    .carrusel-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        width: 100%;
+
+        .carrusel-btn {
+            flex-shrink: 0;
+            /* el botón no se achica */
+            background: none;
+            border: none;
+            font-size: 40px;
+            cursor: pointer;
+            color: #7AB433;
+            line-height: 1;
+            padding: 0 4px;
+
+            &:hover {
+                color: #0db534;
+            }
+        }
+
+        .carrusel-track {
+            display: flex;
+            gap: 38px;
+            overflow-x: hidden;
+            /* oculta el scrollbar */
+            scroll-behavior: smooth;
+            flex: 1;
+            /* ocupa todo el espacio entre los botones */
+
+            .carrusel-item {
+                flex-shrink: 0;
+                /* los items no se comprimen */
+                width: 140px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 6px;
+                cursor: pointer;
+
+                &:first-child {
+                    margin-left: 10px;
+                }
+
+                &:last-child {
+                    margin-right: 20px;
+                }
+
+                .cat-imagen {
+                    width: 140px;
+                    height: 200px;
+                    background-color: #d4edda;
+                    border: 1px solid #7AB433;
+                }
+
+                .cat-nombre {
+                    font-size: 12px;
+                    text-align: center;
+                    font-weight: bold;
+                    color: #333;
+                    margin: 0;
+                }
+            }
+        }
+    }
+}

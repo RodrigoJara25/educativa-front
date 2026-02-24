@@ -31,7 +31,7 @@
         }
 
         td:nth-child(2) {
-            padding-left: 20px;
+            padding-left: 10px;
         }
 
         th:last-child,
@@ -45,7 +45,7 @@
 
             input[type="number"] {
                 width: 100%;
-                height: 30px;
+                height: 24px;
                 border: none;
                 outline: none;
                 text-align: center;
@@ -68,18 +68,18 @@
         }
 
         thead {
-            height: 28px;
+            height: 24px;
         }
 
         tbody {
             tr {
-                height: 30px;
+                height: 24px;
             }
         }
 
         tfoot {
             .tfoot-spacer {
-                height: 12px;
+                height: 8px;
 
                 td {
                     border: none;
@@ -87,7 +87,7 @@
             }
 
             tr {
-                height: 30px;
+                height: 24px;
 
                 .td-total-empty {
                     border: none;
@@ -100,12 +100,12 @@
                     .total-box {
                         float: right;
                         width: 88px;
-                        height: 30px;
+                        height: 24px;
                         display: flex;
                         align-items: center;
                         justify-content: center;
                         font-weight: bold;
-                        font-size: 15px;
+                        font-size: 14px;
                         border: 2px solid black;
                         border-right: none;
                     }
@@ -117,7 +117,7 @@
 
                     .valor-box {
                         width: 100%;
-                        height: 30px;
+                        height: 24px;
                         display: flex;
                         align-items: center;
                         justify-content: center;

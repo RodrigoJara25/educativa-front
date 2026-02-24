@@ -2,36 +2,36 @@
     width: 100%;
 
     .laminas-subcategorias {
-        margin-bottom: 60px;
+        margin-bottom: 40px;
 
         .laminas-subactegorias-titulo {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: bold;
-            margin-bottom: 30px;
+            margin-bottom: 15px;
             text-transform: uppercase;
         }
 
         .laminas-grid {
             display: grid;
-            grid-template-columns: repeat(9, 1fr);
+            grid-template-columns: repeat(10, 1fr);
             grid-auto-flow: column;
-            // gap: 8px;
+            gap: 0px 10px; // 0 de espacio arriba/abajo, 10px entre columnas
 
             .lamina-item {
                 display: flex;
                 align-items: center;
-                // gap: 6px;
+                gap: 0; // Pegamos el código al cuadro de cantidad
 
                 .lamina-item-code {
-                    font-size: 12px;
-                    width: 55px;
+                    font-size: 11px;
+                    width: 48px;
                     /* ancho fijo para alinear inputs */
                     display: inline-block;
                 }
 
                 .lamina-item-cantidad {
-                    width: 30px;
-                    height: 30px;
+                    width: 24px;
+                    height: 24px;
                     text-align: center;
                     border: 1px solid black;
                     background-color: white;
@@ -49,12 +49,13 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            margin-top: 30px;
+            margin-top: 15px;
             font-weight: bold;
+            font-size: 14px;
 
             .laminas-total-valor {
-                width: 50px;
-                height: 30px;
+                width: 45px;
+                height: 24px;
                 display: flex;
                 align-items: center;
                 justify-content: center;

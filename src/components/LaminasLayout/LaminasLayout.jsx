@@ -29,7 +29,7 @@ function LaminasLayout() {
         <>
             <div className="laminas-subactegorias-layout">
                 {laminasPorSubcategoria.map((subcategoria) => {
-                    const numCols = 9
+                    const numCols = 10
                     const numFilas = Math.ceil(subcategoria.laminas.length / numCols)
                     const subId = subcategoria.subcategoria._id
                     return (

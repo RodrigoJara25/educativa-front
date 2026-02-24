@@ -6,6 +6,9 @@ import PedidosDiccionarios from "../../components/PedidosDiccionarios/PedidosDic
 import PedidosLaminas from "../../components/PedidosLaminas/PedidosLaminas";
 import CuentosClasicos from "../../components/CuentosClasicos/CuentosClasicos";
 import CuentosSelectos from "../../components/CuentosSelectos/CuentosSelectos";
+import CuentosEcologicos from "../../components/CuentosEcologicos/CuentosEcologicos";
+import CuentosEducativos from "../../components/CuentosEducativos/CuentosEducativos";
+import CuentosInfantiles from "../../components/CuentosInfantiles/CuentosInfantiles";
 
 
 function PedidosDistribuidores() {
@@ -18,6 +21,9 @@ function PedidosDistribuidores() {
             {step === 4 && <PedidosLaminas onRetroceder={() => setStep(3)} onContinuar={() => setStep(5)} />}
             {step === 5 && <CuentosClasicos onRetroceder={() => setStep(4)} onContinuar={() => setStep(6)} />}
             {step === 6 && <CuentosSelectos onRetroceder={() => setStep(5)} onContinuar={() => setStep(7)} />}
+            {step === 7 && <CuentosEcologicos onRetroceder={() => setStep(6)} onContinuar={() => setStep(8)} />}
+            {step === 8 && <CuentosEducativos onRetroceder={() => setStep(7)} onContinuar={() => setStep(9)} />}
+            {step === 9 && <CuentosInfantiles onRetroceder={() => setStep(8)} onContinuar={() => setStep(10)} />}
         </>
     );
 }

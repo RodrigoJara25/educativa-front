@@ -13,14 +13,14 @@
 
         .laminas-grid {
             display: grid;
-            grid-template-columns: repeat(6, 1fr);
+            grid-template-columns: repeat(9, 1fr);
             grid-auto-flow: column;
-            gap: 8px;
+            // gap: 8px;
 
             .lamina-item {
                 display: flex;
                 align-items: center;
-                gap: 6px;
+                // gap: 6px;
 
                 .lamina-item-code {
                     font-size: 12px;

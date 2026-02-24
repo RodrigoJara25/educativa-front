@@ -5,6 +5,7 @@ import PedidosDistribuidoresCategorias from "../../components/PedidosDistribuido
 import PedidosDiccionarios from "../../components/PedidosDiccionarios/PedidosDiccionarios";
 import PedidosLaminas from "../../components/PedidosLaminas/PedidosLaminas";
 import CuentosClasicos from "../../components/CuentosClasicos/CuentosClasicos";
+import CuentosSelectos from "../../components/CuentosSelectos/CuentosSelectos";
 
 
 function PedidosDistribuidores() {
@@ -16,6 +17,7 @@ function PedidosDistribuidores() {
             {step === 3 && <PedidosDiccionarios onRetroceder={() => setStep(2)} onContinuar={() => setStep(4)} />}
             {step === 4 && <PedidosLaminas onRetroceder={() => setStep(3)} onContinuar={() => setStep(5)} />}
             {step === 5 && <CuentosClasicos onRetroceder={() => setStep(4)} onContinuar={() => setStep(6)} />}
+            {step === 6 && <CuentosSelectos onRetroceder={() => setStep(5)} onContinuar={() => setStep(7)} />}
         </>
     );
 }

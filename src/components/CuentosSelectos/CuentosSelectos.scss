@@ -1,0 +1,10 @@
+.cuentos-selectos-container {
+    display: flex;
+    gap: 30px;
+    width: 100%;
+
+    .tabla-wrapper {
+        flex: 1; // Cada tabla ocupa el 50% aproximadamente
+        min-width: 0; // Evita que colapsen o se desborden
+    }
+}

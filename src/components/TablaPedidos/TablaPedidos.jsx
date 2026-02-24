@@ -1,17 +1,24 @@
 import "./TablaPedidos.scss";
 import { useState } from "react";
 
-function TablaPedidos({ items }) {
+function TablaPedidos({ items, externalCantidades, onCantidadChange, showFooter = true, customTotal }) {
 
-    const [cantidades, setCantidades] = useState(items.map(() => 0))
+    const [internalCantidades, setInternalCantidades] = useState(items.map(() => 0))
+
+    const cantidades = externalCantidades || internalCantidades;
 
     const handleCantidadChange = (index, value) => {
-        const newCantidades = [...cantidades]
-        newCantidades[index] = Number(value) || 0
-        setCantidades(newCantidades)
+        if (onCantidadChange) {
+            onCantidadChange(index, value)
+        } else {
+            const newCantidades = [...internalCantidades]
+            newCantidades[index] = Number(value) || 0
+            setInternalCantidades(newCantidades)
+        }
     }
 
-    const total = cantidades.reduce((acc, curr) => acc + curr, 0)
+    const localTotal = cantidades.reduce((acc, curr) => acc + curr, 0)
+    const totalMostrado = customTotal !== undefined ? customTotal : localTotal
 
     return (
         <div className="tabla-pedidos">
@@ -38,20 +45,22 @@ function TablaPedidos({ items }) {
                         </tr>
                     ))}
                 </tbody>
-                <tfoot>
-                    <tr className="tfoot-spacer">
-                        <td colSpan={3}></td>
-                    </tr>
-                    <tr>
-                        <td className="td-total-empty"></td>
-                        <td className="td-total-label">
-                            <div className="total-box">TOTAL</div>
-                        </td>
-                        <td className="td-total-valor">
-                            <div className="valor-box">{total}</div>
-                        </td>
-                    </tr>
-                </tfoot>
+                {showFooter && (
+                    <tfoot>
+                        <tr className="tfoot-spacer">
+                            <td colSpan={3}></td>
+                        </tr>
+                        <tr>
+                            <td className="td-total-empty"></td>
+                            <td className="td-total-label">
+                                <div className="total-box">TOTAL</div>
+                            </td>
+                            <td className="td-total-valor">
+                                <div className="valor-box">{totalMostrado}</div>
+                            </td>
+                        </tr>
+                    </tfoot>
+                )}
             </table>
         </div>
     );

@@ -1,29 +1,17 @@
 import "./LaminasLayout.scss";
-import { useState } from "react";
 import { laminasMock } from "../../data/laminasMock";
+import { useOrder } from "../../context/OrderContext";
 
 function LaminasLayout() {
-
+    const { cantidades, updateCantidad } = useOrder();
     const laminasPorSubcategoria = laminasMock;
 
-    const [cantidades, setCantidades] = useState(
-        Object.fromEntries(
-            laminasMock.map(sub => [
-                sub.subcategoria._id,
-                sub.laminas.map(() => 0)
-            ])
-        )
-    )
-
-    const handleCantidadChange = (subId, index, value) => {
-        setCantidades(prev => ({
-            ...prev,
-            [subId]: prev[subId].map((cant, i) => i === index ? Number(value) || 0 : cant)
-        }))
+    const handleCantidadChange = (laminaId, value) => {
+        updateCantidad(laminaId, value);
     }
 
-    const totalPorSub = (subId) =>
-        cantidades[subId]?.reduce((acc, curr) => acc + curr, 0) ?? 0
+    const calcularTotalSub = (laminas) =>
+        laminas.reduce((acc, lam) => acc + (cantidades[lam.id] || 0), 0);
 
     return (
         <>
@@ -36,14 +24,14 @@ function LaminasLayout() {
                         <div key={subId} className="laminas-subcategorias">
                             <h2 className="laminas-subactegorias-titulo">{subcategoria.subcategoria.nombre}</h2>
                             <div className="laminas-grid" style={{ gridTemplateRows: `repeat(${numFilas}, auto)` }}>
-                                {subcategoria.laminas.map((lamina, index) => (
+                                {subcategoria.laminas.map((lamina) => (
                                     <div key={lamina.id} className="lamina-item">
                                         <span className="lamina-item-code">{lamina.item}</span>
                                         <input
                                             type="number"
                                             className="lamina-item-cantidad"
-                                            value={cantidades[subId]?.[index] || ""}
-                                            onChange={(e) => handleCantidadChange(subId, index, e.target.value)}
+                                            value={cantidades[lamina.id] || ""}
+                                            onChange={(e) => handleCantidadChange(lamina.id, e.target.value)}
                                         />
                                     </div>
                                 ))}
@@ -51,7 +39,7 @@ function LaminasLayout() {
                             <div className="laminas-total">
                                 <span>TOTAL</span>
                                 <span className="laminas-total-valor">
-                                    {totalPorSub(subId) === 0 ? "" : totalPorSub(subId)}
+                                    {calcularTotalSub(subcategoria.laminas) === 0 ? "" : calcularTotalSub(subcategoria.laminas)}
                                 </span>
                             </div>
                         </div>

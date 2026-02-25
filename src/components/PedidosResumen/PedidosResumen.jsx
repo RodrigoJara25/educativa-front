@@ -12,7 +12,7 @@ import { cuentosEducativosMock } from "../../data/cuentosEducativosMock";
 import { cuentosInfantilesMock } from "../../data/cuentosInfantilesMock";
 
 function PedidosResumen({ onRetroceder, onContinuar }) {
-    const { cantidades } = useOrder();
+    const { cantidades, distribuidor } = useOrder();
 
     // Helper para sumar cantidades por categoría
     const sumarCategoria = (mockData, prefix) => {
@@ -42,11 +42,29 @@ function PedidosResumen({ onRetroceder, onContinuar }) {
     // Calculamos el total general
     const totalGeneral = itemsResumen.reduce((acc, curr) => acc + curr.cantidad, 0);
 
+    // Función para finalizar y ver el JSON
+    const handleFinalizar = () => {
+        const pedidoFinal = {
+            distribuidor: distribuidor,
+            items: Object.keys(cantidades)
+                .filter(id => cantidades[id] > 0) // Solo los que tienen cantidad
+                .map(id => ({
+                    id,
+                    cantidad: cantidades[id]
+                })),
+            totalProductos: totalGeneral,
+            fecha: new Date().toISOString()
+        };
+
+        console.log("📦 PEDIDO FINALIZADO:", pedidoFinal);
+        alert("¡Pedido enviado a consola! Revisa el inspector (F12)");
+    };
+
     return (
         <PageSectionDistribuidores
             titulo="RESUMEN DEL PEDIDO"
             onRetroceder={onRetroceder}
-            onContinuar={onContinuar}
+            onContinuar={handleFinalizar}
             textoContinuar="FINALIZAR COMPRA"
         >
             <div className="pedidos-resumen-container">

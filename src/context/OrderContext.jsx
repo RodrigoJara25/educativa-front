@@ -12,7 +12,9 @@ export function OrderProvider({ children }) {
         telefono: '',
         departamento: '',
         provincia: '',
-        distrito: ''
+        distrito: '',
+        agencia: '',
+        referencia: ''
     });
 
     // Estado para todas las cantidades de productos

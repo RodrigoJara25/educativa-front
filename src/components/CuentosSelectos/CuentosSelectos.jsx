@@ -2,10 +2,12 @@ import "./CuentosSelectos.scss";
 import PageSectionDistribuidores from "../PageSectionDistribuidores/PageSectionDistribuidores";
 import TablaPedidos from "../TablaPedidos/TablaPedidos";
 import { cuentosSelectosMock } from "../../data/cuentosSelectosMock";
-import { useState } from "react";
+import { useOrder } from "../../context/OrderContext";
 
 function CuentosSelectos({ onRetroceder, onContinuar }) {
-    const [todasCantidades, setTodasCantidades] = useState(cuentosSelectosMock.map(() => 0));
+    const { cantidades, updateCantidad } = useOrder();
+
+    const todasCantidades = cuentosSelectosMock.map(item => cantidades[item.id] || 0);
 
     const mitad = Math.ceil(cuentosSelectosMock.length / 2);
     const primeraMitad = cuentosSelectosMock.slice(0, mitad);
@@ -14,9 +16,8 @@ function CuentosSelectos({ onRetroceder, onContinuar }) {
     const totalGlobal = todasCantidades.reduce((acc, curr) => acc + curr, 0);
 
     const handleCambioGlobal = (indexReal, valor) => {
-        const nuevas = [...todasCantidades];
-        nuevas[indexReal] = Number(valor) || 0;
-        setTodasCantidades(nuevas);
+        const item = cuentosSelectosMock[indexReal];
+        updateCantidad(item.id, valor);
     };
 
     return (

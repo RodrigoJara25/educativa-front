@@ -1,3 +1,4 @@
+import Swal from "sweetalert2";
 import "./PedidosResumen.scss";
 import PageSectionDistribuidores from "../PageSectionDistribuidores/PageSectionDistribuidores";
 import TablaPedidos from "../TablaPedidos/TablaPedidos";
@@ -10,6 +11,7 @@ import { cuentosSelectosMock } from "../../data/cuentosSelectosMock";
 import { cuentosEcologicosMock } from "../../data/cuentosEcologicosMock";
 import { cuentosEducativosMock } from "../../data/cuentosEducativosMock";
 import { cuentosInfantilesMock } from "../../data/cuentosInfantilesMock";
+import logoHormiga from "../../assets/images/logo.png";
 
 function PedidosResumen({ onRetroceder, onContinuar }) {
     const { cantidades, distribuidor } = useOrder();
@@ -47,17 +49,36 @@ function PedidosResumen({ onRetroceder, onContinuar }) {
         const pedidoFinal = {
             distribuidor: distribuidor,
             items: Object.keys(cantidades)
-                .filter(id => cantidades[id] > 0) // Solo los que tienen cantidad
-                .map(id => ({
-                    id,
-                    cantidad: cantidades[id]
-                })),
+                .filter(id => cantidades[id] > 0)
+                .map(id => ({ id, cantidad: cantidades[id] })),
             totalProductos: totalGeneral,
             fecha: new Date().toISOString()
         };
+        // 2. Lanzamos el Pop-up de confirmación
+        Swal.fire({
+            title: '¿Seguro que quieres confirmar el pedido?',
+            text: "Una vez confirmado, se procesará la información.",
+            imageUrl: logoHormiga, // <-- Usamos tu logo aquí
+            imageWidth: 250,       // Ajusta el tamaño según prefieras
+            imageHeight: 'auto',
+            imageAlt: 'Logo Educativa',
+            showCancelButton: true,
+            confirmButtonColor: '#7A9A37', // Tu color verde
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Sí, confirmar pedido',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                // 3. Si confirma, ejecutamos la lógica final
+                console.log("📦 PEDIDO FINALIZADO:", pedidoFinal);
 
-        console.log("📦 PEDIDO FINALIZADO:", pedidoFinal);
-        alert("¡Pedido enviado a consola! Revisa el inspector (F12)");
+                Swal.fire(
+                    '¡Confirmado!',
+                    'Tu pedido ha sido registrado correctamente.',
+                    'success'
+                );
+            }
+        });
     };
 
     return (

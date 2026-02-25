@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { OrderProvider } from "../../context/OrderContext";
 import PedidosDistribuidoresDatos from "../../components/PedidosDistribuidoresDatos/PedidosDistribuidoresDatos";
 import PedidosDistribuidoresCategorias from "../../components/PedidosDistribuidoresCategorias/PedidosDistribuidoresCategorias";
@@ -14,7 +14,12 @@ import PedidosResumen from "../../components/PedidosResumen/PedidosResumen";
 
 
 function PedidosDistribuidores() {
-    const [step, setStep] = useState(1);
+    const [searchParams, setSearchParams] = useSearchParams();
+    const step = parseInt(searchParams.get("paso") || "1");
+
+    const setStep = (nuevoPaso) => {
+        setSearchParams({ paso: nuevoPaso });
+    };
     return (
         <OrderProvider>
             {step === 1 && <PedidosDistribuidoresDatos onContinuar={() => setStep(2)} />}

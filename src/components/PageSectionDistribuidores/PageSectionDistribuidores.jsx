@@ -1,6 +1,6 @@
 import "./PageSectionDistribuidores.scss"
 
-function PageSectionDistribuidores({ titulo, children, onContinuar, onRetroceder }) {
+function PageSectionDistribuidores({ titulo, children, onContinuar, onRetroceder, textoContinuar = "CONTINUAR" }) {
     return (
         <div className="div-page-section-distribuidores">
             <div className="page-section-distribuidores">
@@ -11,7 +11,7 @@ function PageSectionDistribuidores({ titulo, children, onContinuar, onRetroceder
                     </div>
                     <div className="botones-continuar-anterior">
                         <button type="button" className="btn-anterior" onClick={onRetroceder}>ANTERIOR</button>
-                        <button type="button" className="btn-continuar" onClick={onContinuar}>CONTINUAR</button>
+                        <button type="button" className="btn-continuar" onClick={onContinuar}>{textoContinuar}</button>
                     </div>
                     <div className="linea-marron-distribuidores"></div>
                     <div className="div-contenido-distribuidores">

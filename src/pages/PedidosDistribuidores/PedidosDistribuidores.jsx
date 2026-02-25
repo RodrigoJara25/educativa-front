@@ -1,5 +1,5 @@
-import "./PedidosDistribuidores.scss";
 import { useState } from "react";
+import { OrderProvider } from "../../context/OrderContext";
 import PedidosDistribuidoresDatos from "../../components/PedidosDistribuidoresDatos/PedidosDistribuidoresDatos";
 import PedidosDistribuidoresCategorias from "../../components/PedidosDistribuidoresCategorias/PedidosDistribuidoresCategorias";
 import PedidosDiccionarios from "../../components/PedidosDiccionarios/PedidosDiccionarios";
@@ -10,12 +10,13 @@ import CuentosSelectos from "../../components/CuentosSelectos/CuentosSelectos";
 import CuentosEcologicos from "../../components/CuentosEcologicos/CuentosEcologicos";
 import CuentosEducativos from "../../components/CuentosEducativos/CuentosEducativos";
 import CuentosInfantiles from "../../components/CuentosInfantiles/CuentosInfantiles";
+import PedidosResumen from "../../components/PedidosResumen/PedidosResumen";
 
 
 function PedidosDistribuidores() {
     const [step, setStep] = useState(1);
     return (
-        <>
+        <OrderProvider>
             {step === 1 && <PedidosDistribuidoresDatos onContinuar={() => setStep(2)} />}
             {step === 2 && <PedidosDistribuidoresCategorias onRetroceder={() => setStep(1)} onContinuar={() => setStep(3)} />}
             {step === 3 && <PedidosDiccionarios onRetroceder={() => setStep(2)} onContinuar={() => setStep(4)} />}
@@ -26,7 +27,8 @@ function PedidosDistribuidores() {
             {step === 8 && <CuentosEcologicos onRetroceder={() => setStep(7)} onContinuar={() => setStep(9)} />}
             {step === 9 && <CuentosEducativos onRetroceder={() => setStep(8)} onContinuar={() => setStep(10)} />}
             {step === 10 && <CuentosInfantiles onRetroceder={() => setStep(9)} onContinuar={() => setStep(11)} />}
-        </>
+            {step === 11 && <PedidosResumen onRetroceder={() => setStep(10)} onContinuar={() => alert("¡Pedido Finalizado!")} />}
+        </OrderProvider>
     );
 }
 

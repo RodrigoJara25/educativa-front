@@ -1,7 +1,7 @@
 import "./TablaPedidos.scss";
 import { useState } from "react";
 
-function TablaPedidos({ items, externalCantidades, onCantidadChange, showFooter = true, customTotal }) {
+function TablaPedidos({ items, externalCantidades, onCantidadChange, showFooter = true, customTotal, precision = 0 }) {
 
     const [internalCantidades, setInternalCantidades] = useState(items.map(() => 0))
 
@@ -17,7 +17,8 @@ function TablaPedidos({ items, externalCantidades, onCantidadChange, showFooter 
         }
     }
 
-    const localTotal = cantidades.reduce((acc, curr) => acc + curr, 0)
+    const localTotalRaw = cantidades.reduce((acc, curr) => acc + curr, 0)
+    const localTotal = precision > 0 ? localTotalRaw.toFixed(precision) : localTotalRaw
     const totalMostrado = customTotal !== undefined ? customTotal : localTotal
 
     return (

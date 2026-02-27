@@ -5,10 +5,11 @@ const generarCuentos = (cantidad) => {
         "Gotita de Agua", "El Sol Brillante", "Tierra Fértil", "Viento Suave",
         "Mar Limpio", "Cielo Despejado", "Semilla de Esperanza", "Flores Silvestres",
         "Animales en Libertad", "Reciclaje Divertido", "Energía Limpia", "Vida Verde",
-        "Planeta Saludable", "Naturaleza Viva", "Eco Aventura", "Guardianes del Bosque"
+        "Planeta Saludable", "Naturaleza Viva", "Eco Aventura", "Guardianes del Bosque",
+        "La Selva que Respira", "Agua Para Todos", "El Jardín Secreto", "Amigos del Planeta"
     ];
 
-    return Array.from({ length: nombres.length }, (_, i) => ({
+    return Array.from({ length: cantidad }, (_, i) => ({
         id: `65f1a2b3c4d5e6f7a8b9c3${String(i + 1).padStart(2, "0")}`,
         item: `ECO-${String(i + 1).padStart(3, "0")}`,
         categoria: {
@@ -16,7 +17,7 @@ const generarCuentos = (cantidad) => {
             "nombre": "Cuentos Ecológicos",
             "tipo": "LIBRO"
         },
-        titulo: nombres[i],
+        titulo: nombres[i] || `Cuento Ecológico ${i + 1}`,
         fotoPortada: `https://res.cloudinary.com/placeholder-eco-${i + 1}.jpg`,
         fotosInterior: [],
         createdAt: new Date().toISOString(),
@@ -24,4 +25,4 @@ const generarCuentos = (cantidad) => {
     }));
 };
 
-export const cuentosEcologicosMock = generarCuentos();
+export const cuentosEcologicosMock = generarCuentos(24);

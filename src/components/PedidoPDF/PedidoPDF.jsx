@@ -259,24 +259,24 @@ const styles = StyleSheet.create({
     laminaFila: {
         flexDirection: "row",
         alignItems: "center",
-        marginBottom: 0.8,       // espacio mínimo entre filas
+        marginBottom: 0,
     },
     laminaItem: {
-        fontSize: 6.5,         // ← sube aquí para ajustar el tamaño del código del item
+        fontSize: 7.5,
         fontFamily: "Helvetica-Bold",
-        marginRight: 2,        // separación mínima entre código y cuadro
+        marginRight: 2,
         color: "#111111",
     },
     laminaCuadro: {
-        width: 14,
-        height: 9,
+        width: 16,
+        height: 10,
         borderWidth: 0.5,
         borderColor: "#999999",
         justifyContent: "center",
         alignItems: "center",
     },
     laminaCantidad: {
-        fontSize: 6,           // ← sube aquí para ajustar el tamaño del número dentro del cuadro
+        fontSize: 7,
         fontFamily: "Helvetica-Bold",
         color: "#111111",
         textAlign: "center",
@@ -306,7 +306,7 @@ function CabeceraPDF({ fecha }) {
             {/* Image recibe src= con la ruta del logo importado */}
             <Image style={styles.logo} src={logoHormiga} />
             <View>
-                <Text style={styles.tituloCabecera}>Educativa Hormiga</Text>
+                <Text style={styles.tituloCabecera}>Educativa</Text>
                 <Text style={styles.subtituloCabecera}>Pedido de Distribuidores</Text>
                 <Text style={styles.subtituloCabecera}>Fecha: {fecha}</Text>
             </View>
@@ -629,7 +629,7 @@ function DocumentoPDF({ distribuidor, categorias, fecha }) {
         // Evita que FESTIVIDADES o SECUNDARIA se partan en dos líneas.
         <Document
             title={`Pedido - ${distribuidor.nombre || "Distribuidor"}`}
-            author="Educativa Hormiga"
+            author="Educativa Editorial"
             hyphenationCallback={word => [word]}
         >
             {/* ── PÁGINA 1: Datos del Distribuidor ─────────────────────────── */}
@@ -701,7 +701,7 @@ function DocumentoPDF({ distribuidor, categorias, fecha }) {
 
                 {/* Pie de la página 1 */}
                 <View style={styles.pie}>
-                    <Text style={styles.pieTitulo}>Educativa Hormiga S.A.C.</Text>
+                    <Text style={styles.pieTitulo}>Educativa Editorial S.A.C.</Text>
                     <Text style={styles.pieTitulo}>Página 1 de {categorias.length + 1}</Text>
                 </View>
             </Page>
@@ -753,7 +753,7 @@ function DocumentoPDF({ distribuidor, categorias, fecha }) {
                         {/* Pie de página — NO se muestra en la página de láminas */}
                         {!categoria.soloItem && (
                             <View style={styles.pie}>
-                                <Text style={styles.pieTitulo}>Educativa Hormiga S.A.C.</Text>
+                                <Text style={styles.pieTitulo}>Educativa Editorial S.A.C.</Text>
                                 <Text style={styles.pieTitulo}>Página {pageIndex + 2} de {categorias.length + 1}</Text>
                             </View>
                         )}

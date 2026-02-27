@@ -4,7 +4,11 @@ const generarCuentos = (cantidad) => {
         "Caperucita Roja", "Los Tres Chanchitos", "Blanca Nieves", "El Gato con Botas",
         "Pinocho", "La Cenicienta", "Hansel y Gretel", "El Patito Feo",
         "La Bella Durmiente", "Ricitos de Oro", "El Soldadito de Plomo", "Pulgarcito",
-        "Aladino", "La Sirenita", "Bambi"
+        "Aladino", "La Sirenita", "Bambi", "El Libro de la Selva",
+        "Peter Pan", "Alicia en el País de las Maravillas", "El Mago de Oz", "Gulliver",
+        "Robinson Crusoe", "El Principito", "Corazón", "Moby Dick",
+        "Oliver Twist", "Tom Sawyer", "Los Miserables", "Don Quijote",
+        "El Conde de Montecristo", "Veinte Mil Leguas de Viaje Submarino"
     ];
 
     return Array.from({ length: cantidad }, (_, i) => ({
@@ -23,4 +27,4 @@ const generarCuentos = (cantidad) => {
     }));
 };
 
-export const cuentosClasicosMock = generarCuentos(15);
+export const cuentosClasicosMock = generarCuentos(30);

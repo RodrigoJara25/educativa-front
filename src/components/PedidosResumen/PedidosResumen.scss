@@ -1,9 +1,33 @@
 .pedidos-resumen-container {
     width: 100%;
 
-    // Podemos añadir estilos específicos si la tabla resumen 
-    // necesita algún ajuste visual diferente a las demás
     .tabla-pedidos {
         margin-top: 20px;
+    }
+
+    // Botón de descarga de PDF
+    .pedidos-resumen-pdf {
+        margin-top: 24px;
+        display: flex;
+        justify-content: flex-end;
+
+        // PDFDownloadLink genera un <a>, así que lo estilizamos así
+        a {
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #7A9A37;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            cursor: pointer;
+
+            &:hover {
+                background-color: #3a5a0a;
+                transform: translateY(-2px);
+            }
+        }
     }
 }

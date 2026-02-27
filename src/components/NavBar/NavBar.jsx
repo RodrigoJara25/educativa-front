@@ -8,8 +8,12 @@ import contactenos from "../../assets/images/contactenos.png"
 import tiktok from "../../assets/images/tiktok-logo.png"
 import facebook from "../../assets/images/fb-logo.png"
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import ModalLogin from '../ModalLogin/ModalLogin'
 
 function NavBar() {
+    const [modalAbierto, setModalAbierto] = useState(false);
+
     return (
         <>
             <div className='navbar'>
@@ -39,9 +43,10 @@ function NavBar() {
                             </Link>
                         </li>
                         <li>
-                            <Link to="/pedidos-distribuidores">
+                            {/* Aca no es Link, ahora abre el modal */}
+                            <button className='btn-nav-pedidos' onClick={() => setModalAbierto(true)}>
                                 <img src={pedidos_distribuidores} alt="pedidos-distribuidores" />
-                            </Link>
+                            </button>
                         </li>
                     </ul>
                 </div>
@@ -56,6 +61,11 @@ function NavBar() {
                     </ul>
                 </div>
             </div>
+
+            {/* El modal vive aqui, fuera del navbar para no heredar estilos */}
+            {modalAbierto && (
+                <ModalLogin onCerrar={() => setModalAbierto(false)} />
+            )}
         </>
     )
 }

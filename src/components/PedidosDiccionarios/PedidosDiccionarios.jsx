@@ -8,7 +8,7 @@ function PedidosDiccionarios({ onContinuar, onRetroceder }) {
     const { cantidades, updateCantidad } = useOrder();
     const diccionarios = diccionariosMock;
 
-    const externalCantidades = diccionarios.map(item => cantidades[item.id] || 0);
+    const externalCantidades = diccionarios.map(diccionario => cantidades[diccionario.id] || 0);
 
     const handleCantidadChange = (index, valor) => {
         const item = diccionarios[index];

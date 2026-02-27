@@ -20,6 +20,7 @@ function PedidosDistribuidores() {
     const setStep = (nuevoPaso) => {
         setSearchParams({ paso: nuevoPaso });
     };
+
     return (
         <OrderProvider>
             {step === 1 && <PedidosDistribuidoresDatos onContinuar={() => setStep(2)} />}

@@ -6,6 +6,7 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+
     .logo {
         width: 20%;
         max-width: 250px;
@@ -13,17 +14,20 @@
         display: flex;
         justify-content: flex-end;
         align-items: center;
+
         .logo-img {
             margin-left: 7%;
-            width: 100%;      // Ocupa el 100% del ancho de su contenedor (el div padre)
+            width: 100%; // Ocupa el 100% del ancho de su contenedor (el div padre)
             max-width: 250px; // ¡OJO! No crecerá más de esto aunque la pantalla sea gigante
-            height: auto;     // Mantiene la proporción original (evita que se vea estirada)
+            height: auto; // Mantiene la proporción original (evita que se vea estirada)
             z-index: 999;
         }
     }
+
     .paginas {
         width: 50%;
         margin-left: 25px;
+
         ul {
             display: flex;
             // justify-content: center;
@@ -31,15 +35,27 @@
             flex-direction: row;
             list-style: none;
             gap: 20px;
+
             li {
                 height: 15px;
                 width: auto;
+
+                .btn-nav-pedidos {
+                    background: none;
+                    border: none;
+                    padding: 0;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                }
             }
         }
     }
+
     .redes-sociales {
         width: 30%;
         padding-right: 20px;
+
         ul {
             display: flex;
             // justify-content: center;
@@ -48,6 +64,7 @@
             list-style: none;
             gap: 10px;
             justify-content: flex-end;
+
             li {
                 height: 1.75rem;
             }

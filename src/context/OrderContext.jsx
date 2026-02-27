@@ -29,7 +29,12 @@ export function OrderProvider({ children }) {
         }));
     };
 
-    // Función para limpiar todo el pedido
+    // Función para limpiar solo las cantidades (mantiene los datos del distribuidor)
+    const resetCantidades = () => {
+        setCantidades({});
+    };
+
+    // Función para limpiar TODO (cantidades + datos del distribuidor)
     const resetOrder = () => {
         setCantidades({});
         setDistribuidor({});
@@ -41,6 +46,7 @@ export function OrderProvider({ children }) {
             setDistribuidor,
             cantidades,
             updateCantidad,
+            resetCantidades,
             resetOrder
         }}>
             {children}

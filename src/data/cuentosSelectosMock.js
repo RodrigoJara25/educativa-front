@@ -33,4 +33,4 @@ const generarCuentos = (cantidad) => {
     });
 };
 
-export const cuentosSelectosMock = generarCuentos(70);
+export const cuentosSelectosMock = generarCuentos(60);

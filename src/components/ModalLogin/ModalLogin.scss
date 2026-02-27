@@ -1,0 +1,121 @@
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-box {
+    background: white;
+    border-radius: 16px;
+    padding: 40px;
+    width: 100%;
+    max-width: 420px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.modal-cerrar {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 18px;
+    cursor: pointer;
+    color: #666;
+
+    &:hover {
+        color: #000;
+    }
+}
+
+.modal-titulo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+    text-align: center;
+}
+
+.modal-subtitulo {
+    font-size: 13px;
+    color: #888;
+    margin: 0;
+    text-align: center;
+}
+
+.modal-campo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    label {
+        font-size: 13px;
+        font-weight: bold;
+        color: #555;
+    }
+
+    input {
+        padding: 10px 14px;
+        border: 1.5px solid #ddd;
+        border-radius: 8px;
+        font-size: 14px;
+        outline: none;
+        transition: border-color 0.2s;
+        width: 100%;
+        box-sizing: border-box;
+
+        &:focus {
+            border-color: #7A9A37;
+        }
+    }
+}
+
+.input-password-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+
+    input {
+        padding-right: 44px;
+    }
+}
+
+.btn-toggle-password {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    padding: 0;
+}
+
+.modal-error {
+    color: #d33;
+    font-size: 13px;
+    margin: 0;
+}
+
+.modal-btn-ingresar {
+    background: #7A9A37;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    margin-top: 4px;
+
+    &:hover {
+        background: #5f7a2a;
+    }
+}

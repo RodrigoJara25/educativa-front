@@ -1,0 +1,64 @@
+.admin-topbar {
+    height: 72px;
+    background-color: #A2CE46;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 24px;
+    gap: 16px;
+
+    .topbar-search {
+        flex: 1;
+        max-width: 480px;
+        display: flex;
+        align-items: center;
+        background-color: #ffffff;
+        border-radius: 20px;
+        padding: 6px 14px;
+        gap: 8px;
+
+        .topbar-search-icon {
+            font-size: 14px;
+            color: #888;
+        }
+
+        .topbar-input {
+            border: none;
+            outline: none;
+            font-size: 14px;
+            width: 100%;
+            background: transparent;
+            color: #333;
+
+            &::placeholder {
+                color: #aaa;
+            }
+        }
+    }
+
+    .topbar-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+
+        .topbar-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background-color: #cccccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .topbar-username {
+            color: #ffffff;
+            font-weight: 600;
+            font-size: 15px;
+        }
+    }
+}

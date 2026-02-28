@@ -3,11 +3,12 @@ import './AdminLaminas.scss'
 import { laminasMock } from '../../../data/laminasMock'
 
 function AdminLaminas() {
-    const [subcatActiva, setSubcatActiva] = useState(laminasMock[0].subcategoria._id)
+    const [subcatActiva, setSubcatActiva] = useState('todas')
 
-    const subcatSeleccionada = laminasMock.find(
-        grupo => grupo.subcategoria._id === subcatActiva
-    )
+    // Láminas a mostrar según el tab activo
+    const laminasMostradas = subcatActiva === 'todas'
+        ? laminasMock.flatMap(grupo => grupo.laminas)
+        : laminasMock.find(g => g.subcategoria._id === subcatActiva)?.laminas ?? []
 
     const handleEditar = (id) => {
         console.log('Editar lámina:', id)
@@ -21,12 +22,28 @@ function AdminLaminas() {
         <div className="admin-laminas">
 
             <div className="laminas-header">
-                <h1 className="laminas-titulo">Láminas</h1>
+                <h1 className="laminas-titulo">
+                    Láminas
+                    <span className="laminas-count">({laminasMostradas.length})</span>
+                </h1>
                 <button className="btn-agregar">+ Agregar lámina</button>
             </div>
 
             {/* Tabs de subcategorías */}
             <div className="laminas-tabs">
+
+                {/* Botón "Todas" manual */}
+                <button
+                    className={`tab-btn ${subcatActiva === 'todas' ? 'active' : ''}`}
+                    onClick={() => setSubcatActiva('todas')}
+                >
+                    Todas
+                    <span className="tab-count">
+                        ({laminasMock.reduce((acc, g) => acc + g.laminas.length, 0)})
+                    </span>
+                </button>
+
+                {/* Un botón por cada subcategoría */}
                 {laminasMock.map(grupo => (
                     <button
                         key={grupo.subcategoria._id}
@@ -39,7 +56,7 @@ function AdminLaminas() {
                 ))}
             </div>
 
-            {/* Tabla de láminas de la subcategoría activa */}
+            {/* Tabla */}
             <div className="laminas-tabla-wrapper">
                 <table className="laminas-tabla">
                     <thead>
@@ -51,27 +68,33 @@ function AdminLaminas() {
                         </tr>
                     </thead>
                     <tbody>
-                        {subcatSeleccionada?.laminas.map((lamina, index) => (
-                            <tr key={lamina.id}>
-                                <td className="td-num">{index + 1}</td>
-                                <td className="td-item">{lamina.item}</td>
-                                <td>{subcatSeleccionada.subcategoria.nombre}</td>
-                                <td className="td-acciones">
-                                    <button
-                                        className="btn-editar"
-                                        onClick={() => handleEditar(lamina.id)}
-                                    >
-                                        Editar
-                                    </button>
-                                    <button
-                                        className="btn-eliminar"
-                                        onClick={() => handleEliminar(lamina.id)}
-                                    >
-                                        Eliminar
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
+                        {laminasMostradas.map((lamina, index) => {
+                            // Encontrar el nombre de la subcategoría de esta lámina
+                            const grupo = laminasMock.find(g =>
+                                g.subcategoria._id === lamina.subcategoria._id
+                            )
+                            return (
+                                <tr key={lamina.id}>
+                                    <td className="td-num">{index + 1}</td>
+                                    <td className="td-item">{lamina.item}</td>
+                                    <td>{grupo?.subcategoria.nombre}</td>
+                                    <td className="td-acciones">
+                                        <button
+                                            className="btn-editar"
+                                            onClick={() => handleEditar(lamina.id)}
+                                        >
+                                            Editar
+                                        </button>
+                                        <button
+                                            className="btn-eliminar"
+                                            onClick={() => handleEliminar(lamina.id)}
+                                        >
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            )
+                        })}
                     </tbody>
                 </table>
             </div>

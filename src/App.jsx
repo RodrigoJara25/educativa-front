@@ -13,6 +13,8 @@ import AdminLayout from './components/Admin/AdminLayout/AdminLayout'
 import AdminInicio from './pages/Admin/AdminInicio/AdminInicio'
 import AdminProductos from './pages/Admin/AdminProductos/AdminProductos'
 import AdminLaminas from './pages/Admin/AdminLaminas/AdminLaminas'
+import AdminProductoForm from './pages/Admin/AdminProductoForm/AdminProductoForm'
+import AdminLaminaForm from './pages/Admin/AdminLaminaForm/AdminLaminaForm'
 
 function App() {
   return (
@@ -28,6 +30,12 @@ function App() {
         } />
         <Route path="/admin/laminas" element={
           <AdminLayout><AdminLaminas /></AdminLayout>
+        } />
+        <Route path="/admin/productos/nuevo" element={
+          <AdminLayout><AdminProductoForm /></AdminLayout>
+        } />
+        <Route path="/admin/laminas/nuevo" element={
+          <AdminLayout><AdminLaminaForm /></AdminLayout>
         } />
 
         {/* ── Rutas públicas (con Header y Footer) ── */}

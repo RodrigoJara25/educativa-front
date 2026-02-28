@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './AdminProductos.scss'
 
 // Mocks reales — misma estructura que devuelve el backend
@@ -28,6 +29,7 @@ const categoriasUnicas = [
 ]
 
 function AdminProductos() {
+    const navigate = useNavigate()
     const [filtro, setFiltro] = useState('Todas')
 
     const productosFiltrados = filtro === 'Todas'
@@ -50,7 +52,12 @@ function AdminProductos() {
                     Productos
                     <span className="productos-count">({productosFiltrados.length})</span>
                 </h1>
-                <button className="btn-agregar">+ Agregar producto</button>
+                <button
+                    className="btn-agregar"
+                    onClick={() => navigate('/admin/productos/nuevo')}
+                >
+                    + Agregar producto
+                </button>
             </div>
 
             <div className="productos-filtros">

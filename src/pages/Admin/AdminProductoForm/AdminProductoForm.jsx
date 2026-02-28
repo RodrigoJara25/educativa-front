@@ -1,0 +1,187 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import './AdminProductoForm.scss'
+import { categoriasMock } from '../../../data/categoriasMock'
+import axiosInstance from '../../../config/axios'
+
+// Solo categorías tipo LIBRO (no LAMINA)
+const categoriasLibro = categoriasMock.filter(c => c.tipo === 'LIBRO')
+
+function AdminProductoForm() {
+    const navigate = useNavigate()
+
+    const [form, setForm] = useState({
+        item: '',
+        titulo: '',
+        categoria: '',
+    })
+    const [imagen, setImagen] = useState(null)          // File object
+    const [preview, setPreview] = useState(null)        // URL para previsualizar
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState('')
+
+    // Maneja cambios en los inputs de texto / select
+    const handleChange = (e) => {
+        setForm({ ...form, [e.target.name]: e.target.value })
+    }
+
+    // Maneja la selección de imagen
+    const handleImagenChange = (e) => {
+        const file = e.target.files[0]
+        if (!file) return
+        setImagen(file)
+        setPreview(URL.createObjectURL(file))   // vista previa local
+    }
+
+    // Validación básica del formulario
+    const validar = () => {
+        if (!form.item.trim()) return 'El código del producto (Item) es obligatorio'
+        if (!form.titulo.trim()) return 'El título es obligatorio'
+        if (!form.categoria) return 'Debes seleccionar una categoría'
+        if (!imagen) return 'Debes seleccionar una imagen de portada'
+        return null
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        const mensajeError = validar()
+        if (mensajeError) {
+            setError(mensajeError)
+            return
+        }
+
+        setLoading(true)
+        setError('')
+
+        try {
+            const formData = new FormData()
+            formData.append('item', form.item.trim())
+            formData.append('titulo', form.titulo.trim())
+            formData.append('categoria', form.categoria)
+            formData.append('image', imagen)   // key 'image' según el backend
+
+            await axiosInstance.post('/products', formData)
+            // ⚠️ No ponemos Content-Type — axios lo pone solo con el boundary correcto
+
+            navigate('/admin/productos')   // volver a la lista al guardar
+        } catch (err) {
+            console.error(err)
+            setError('Error al guardar el producto. Intenta de nuevo.')
+        } finally {
+            setLoading(false)
+        }
+    }
+
+    return (
+        <div className="admin-producto-form">
+
+            <div className="form-header">
+                <h1 className="form-titulo">Agregar producto</h1>
+            </div>
+
+            <div className="form-card">
+                <form onSubmit={handleSubmit} noValidate>
+
+                    {/* Error global */}
+                    {error && <p className="form-error">{error}</p>}
+
+                    <div className="form-grid">
+
+                        {/* Columna izquierda — campos de texto */}
+                        <div className="form-campos">
+
+                            <div className="campo-grupo">
+                                <label htmlFor="item">Código (Item) *</label>
+                                <input
+                                    id="item"
+                                    name="item"
+                                    type="text"
+                                    placeholder="Ej: LIB-031"
+                                    value={form.item}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
+                            <div className="campo-grupo">
+                                <label htmlFor="titulo">Título *</label>
+                                <input
+                                    id="titulo"
+                                    name="titulo"
+                                    type="text"
+                                    placeholder="Ej: El Principito"
+                                    value={form.titulo}
+                                    onChange={handleChange}
+                                />
+                            </div>
+
+                            <div className="campo-grupo">
+                                <label htmlFor="categoria">Categoría *</label>
+                                <select
+                                    id="categoria"
+                                    name="categoria"
+                                    value={form.categoria}
+                                    onChange={handleChange}
+                                >
+                                    <option value="">-- Selecciona una categoría --</option>
+                                    {categoriasLibro.map(cat => (
+                                        <option key={cat._id} value={cat._id}>
+                                            {cat.nombre}
+                                        </option>
+                                    ))}
+                                </select>
+                            </div>
+
+                        </div>
+
+                        {/* Columna derecha — imagen */}
+                        <div className="form-imagen">
+                            <label>Foto de portada *</label>
+                            <div
+                                className="imagen-preview"
+                                onClick={() => document.getElementById('image').click()}
+                            >
+                                {preview
+                                    ? <img src={preview} alt="Preview" />
+                                    : <span className="imagen-placeholder">
+                                        Haz clic para seleccionar imagen
+                                    </span>
+                                }
+                            </div>
+                            <input
+                                id="image"
+                                name="image"
+                                type="file"
+                                accept="image/*"
+                                onChange={handleImagenChange}
+                                style={{ display: 'none' }}
+                            />
+                        </div>
+
+                    </div>
+
+                    {/* Botones */}
+                    <div className="form-acciones">
+                        <button
+                            type="button"
+                            className="btn-cancelar"
+                            onClick={() => navigate('/admin/productos')}
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="submit"
+                            className="btn-guardar"
+                            disabled={loading}
+                        >
+                            {loading ? 'Guardando...' : 'Guardar producto'}
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+        </div>
+    )
+}
+
+export default AdminProductoForm

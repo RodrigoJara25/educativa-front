@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import './AdminLaminas.scss'
 import { laminasMock } from '../../../data/laminasMock'
 
 function AdminLaminas() {
+    const navigate = useNavigate()
     const [subcatActiva, setSubcatActiva] = useState('todas')
 
     // Láminas a mostrar según el tab activo
@@ -26,7 +28,12 @@ function AdminLaminas() {
                     Láminas
                     <span className="laminas-count">({laminasMostradas.length})</span>
                 </h1>
-                <button className="btn-agregar">+ Agregar lámina</button>
+                <button
+                    className="btn-agregar"
+                    onClick={() => navigate('/admin/laminas/nuevo')}
+                >
+                    + Agregar lámina
+                </button>
             </div>
 
             {/* Tabs de subcategorías */}

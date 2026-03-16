@@ -15,6 +15,7 @@ import AdminProductos from './pages/Admin/AdminProductos/AdminProductos'
 import AdminLaminas from './pages/Admin/AdminLaminas/AdminLaminas'
 import AdminProductoForm from './pages/Admin/AdminProductoForm/AdminProductoForm'
 import AdminLaminaForm from './pages/Admin/AdminLaminaForm/AdminLaminaForm'
+import Proximamente from './pages/Proximamente/Proximamente'
 
 function App() {
   return (
@@ -37,6 +38,11 @@ function App() {
         <Route path="/admin/laminas/nuevo" element={
           <AdminLayout><AdminLaminaForm /></AdminLayout>
         } />
+        {/* Rutas en Construcción */}
+        <Route path="/admin/pedidos" element={<AdminLayout><Proximamente modulo="Pedidos" /></AdminLayout>} />
+        <Route path="/admin/distribuidores" element={<AdminLayout><Proximamente modulo="Distribuidores" /></AdminLayout>} />
+        <Route path="/admin/vendedores" element={<AdminLayout><Proximamente modulo="Vendedores" /></AdminLayout>} />
+        <Route path="/admin/clientes" element={<AdminLayout><Proximamente modulo="Clientes" /></AdminLayout>} />
 
         {/* ── Rutas públicas (con Header y Footer) ── */}
         <Route path="/*" element={

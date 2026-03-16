@@ -1,12 +1,16 @@
 import "./CuentosEcologicos.scss";
 import PageSectionDistribuidores from "../PageSectionDistribuidores/PageSectionDistribuidores";
 import TablaPedidos from "../TablaPedidos/TablaPedidos";
-import { cuentosEcologicosMock } from "../../data/cuentosEcologicosMock";
 import { useOrder } from "../../context/OrderContext";
+import { useProducts } from "../../context/ProductContext";
 
 function CuentosEcologicos({ onRetroceder, onContinuar }) {
     const { cantidades, updateCantidad } = useOrder();
-    const items = cuentosEcologicosMock;
+    const { productos, loading } = useProducts();
+
+    if (loading) return <p>Cargando productos...</p>
+
+    const items = productos.filter(p => p.categoria?.nombre === 'Cuentos Ecológicos');
 
     const externalCantidades = items.map(item => cantidades[item.id] || 0);
 

@@ -1,12 +1,16 @@
 import "./CuentosInfantiles.scss";
 import PageSectionDistribuidores from "../PageSectionDistribuidores/PageSectionDistribuidores";
 import TablaPedidos from "../TablaPedidos/TablaPedidos";
-import { cuentosInfantilesMock } from "../../data/cuentosInfantilesMock";
 import { useOrder } from "../../context/OrderContext";
+import { useProducts } from "../../context/ProductContext";
 
 function CuentosInfantiles({ onRetroceder, onContinuar }) {
     const { cantidades, updateCantidad } = useOrder();
-    const items = cuentosInfantilesMock;
+    const { productos, loading } = useProducts();
+
+    if (loading) return <p>Cargando productos...</p>
+
+    const items = productos.filter(p => p.categoria?.nombre === 'Cuentos Infantiles');
 
     const externalCantidades = items.map(item => cantidades[item.id] || 0);
 

@@ -1,22 +1,27 @@
 import "./CuentosSelectos.scss";
 import PageSectionDistribuidores from "../PageSectionDistribuidores/PageSectionDistribuidores";
 import TablaPedidos from "../TablaPedidos/TablaPedidos";
-import { cuentosSelectosMock } from "../../data/cuentosSelectosMock";
 import { useOrder } from "../../context/OrderContext";
+import { useProducts } from "../../context/ProductContext";
 
 function CuentosSelectos({ onRetroceder, onContinuar }) {
     const { cantidades, updateCantidad } = useOrder();
+    const { productos, loading } = useProducts();
 
-    const todasCantidades = cuentosSelectosMock.map(item => cantidades[item.id] || 0);
+    if (loading) return <p>Cargando productos...</p>
 
-    const mitad = Math.ceil(cuentosSelectosMock.length / 2);
-    const primeraMitad = cuentosSelectosMock.slice(0, mitad);
-    const segundaMitad = cuentosSelectosMock.slice(mitad);
+    const items = productos.filter(p => p.categoria?.nombre === 'Cuentos Selectos');
+
+    const todasCantidades = items.map(item => cantidades[item.id] || 0);
+
+    const mitad = Math.ceil(items.length / 2);
+    const primeraMitad = items.slice(0, mitad);
+    const segundaMitad = items.slice(mitad);
 
     const totalGlobal = todasCantidades.reduce((acc, curr) => acc + curr, 0);
 
     const handleCambioGlobal = (indexReal, valor) => {
-        const item = cuentosSelectosMock[indexReal];
+        const item = items[indexReal];
         updateCantidad(item.id, valor);
     };
 

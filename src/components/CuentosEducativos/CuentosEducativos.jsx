@@ -1,12 +1,16 @@
 import "./CuentosEducativos.scss";
 import PageSectionDistribuidores from "../PageSectionDistribuidores/PageSectionDistribuidores";
 import TablaPedidos from "../TablaPedidos/TablaPedidos";
-import { cuentosEducativosMock } from "../../data/cuentosEducativosMock";
 import { useOrder } from "../../context/OrderContext";
+import { useProducts } from "../../context/ProductContext";
 
 function CuentosEducativos({ onRetroceder, onContinuar }) {
     const { cantidades, updateCantidad } = useOrder();
-    const items = cuentosEducativosMock;
+    const { productos, loading } = useProducts();
+
+    if (loading) return <p>Cargando productos...</p>
+
+    const items = productos.filter(p => p.categoria?.nombre === 'Cuentos Educativos');
 
     const externalCantidades = items.map(item => cantidades[item.id] || 0);
 

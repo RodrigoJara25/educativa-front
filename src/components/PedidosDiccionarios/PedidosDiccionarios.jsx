@@ -1,12 +1,16 @@
 import "./PedidosDiccionarios.scss";
 import PageSectionDistribuidores from "../PageSectionDistribuidores/PageSectionDistribuidores";
 import TablaPedidos from "../TablaPedidos/TablaPedidos";
-import { diccionariosMock } from "../../data/diccionariosMock";
 import { useOrder } from "../../context/OrderContext";
+import { useProducts } from "../../context/ProductContext";
 
 function PedidosDiccionarios({ onContinuar, onRetroceder }) {
     const { cantidades, updateCantidad } = useOrder();
-    const diccionarios = diccionariosMock;
+    const { productos, loading } = useProducts();
+
+    if (loading) return <p>Cargando productos...</p>
+
+    const diccionarios = productos.filter(p => p.categoria?.nombre === 'Diccionarios');
 
     const externalCantidades = diccionarios.map(diccionario => cantidades[diccionario.id] || 0);
 

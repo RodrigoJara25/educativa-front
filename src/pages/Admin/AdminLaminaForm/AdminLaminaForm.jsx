@@ -10,6 +10,15 @@ function AdminLaminaForm() {
 
     const { categorias, subcategorias, loading: loadingCat } = useCategories()
 
+    // Buscamos la única categoría tipo LAMINA
+    const categoriaLaminaUnica = categorias.find(cat => cat.tipo === 'LAMINA')
+
+    // Subcategorías disponibles para Láminas
+    const subcategoriasDisponibles = subcategorias.filter(sub => {
+        const idCat = sub.categoria?._id || sub.categoria
+        return idCat === categoriaLaminaUnica?._id
+    })
+
     const [form, setForm] = useState({
         item: '',
         categoria: categoriaLaminaUnica?._id || '', // Pre-seleccionada
@@ -20,11 +29,6 @@ function AdminLaminaForm() {
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
 
-    // Buscamos la única categoría tipo LAMINA
-    const categoriaLaminaUnica = categorias.find(cat => cat.tipo === 'LAMINA')
-
-    // Subactegorias disponibles para Lamians
-    const subcategoriasDisponibles = subcategorias.filter(sub => sub.categoria._id === categoriaLaminaUnica?._id)
 
     // Esta funcion se encarga de pre-seleccionar la categoria LAMINA en el formulario
     // Esto se hace para que el usuario no tenga que seleccionar la categoria LAMINA

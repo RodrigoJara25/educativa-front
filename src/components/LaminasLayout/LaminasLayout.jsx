@@ -1,17 +1,46 @@
 import "./LaminasLayout.scss";
-import { laminasMock } from "../../data/laminasMock";
+import { useProducts } from "../../context/ProductContext"
 import { useOrder } from "../../context/OrderContext";
 
 function LaminasLayout() {
     const { cantidades, updateCantidad } = useOrder();
-    const laminasPorSubcategoria = laminasMock;
+    const { productos, loading } = useProducts();
+
+    if (loading) return <p style={{ textAlign: 'center' }}>Cargando láminas de la base de datos...</p>;
+
+    // 1. Agarramos solo los productos que son de la categoría principal LÁMINAS
+    const soloLaminas = productos.filter(p => p.categoria?.tipo === 'LAMINA');
+
+    // 2. Agrupamos las láminas por su subcategoría (Inicial, Primaria, etc.)
+    const agrupadasPorSubcategoria = soloLaminas.reduce((acumulador, lamina) => {
+        const subcat = lamina.subcategoria;
+        if (!subcat) return acumulador; // Si por error hay una lámina sin subcategoría, la saltamos
+
+        const subId = subcat._id;
+
+        // Si no existe el grupo de esta subcategoría, lo creamos
+        if (!acumulador[subId]) {
+            acumulador[subId] = {
+                subcategoria: { _id: subId, nombre: subcat.nombre },
+                laminas: []
+            };
+        }
+        // Metemos la lámina dentro de su grupo
+        acumulador[subId].laminas.push(lamina);
+
+        return acumulador;
+    }, {});
+
+    // Convertimos el objeto a un arreglo para que el .map() de abajo pueda dibujarlo
+    const laminasPorSubcategoria = Object.values(agrupadasPorSubcategoria);
 
     const handleCantidadChange = (laminaId, value) => {
         updateCantidad(laminaId, value);
     }
 
-    const calcularTotalSub = (laminas) =>
-        laminas.reduce((acc, lam) => acc + (cantidades[lam.id] || 0), 0);
+    const calcularTotalSub = (laminasLista) =>
+        laminasLista.reduce((acc, lam) => acc + (cantidades[lam.id] || 0), 0);
+
 
     return (
         <>

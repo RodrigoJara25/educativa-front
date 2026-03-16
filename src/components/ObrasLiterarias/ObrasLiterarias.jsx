@@ -1,12 +1,16 @@
 import "./ObrasLiterarias.scss";
 import PageSectionDistribuidores from "../PageSectionDistribuidores/PageSectionDistribuidores";
 import TablaPedidos from "../TablaPedidos/TablaPedidos";
-import { obrasLiterariasMock } from "../../data/obrasLiterariasMock";
 import { useOrder } from "../../context/OrderContext";
+import { useProducts } from "../../context/ProductContext";
 
 function ObrasLiterarias({ onRetroceder, onContinuar }) {
     const { cantidades, updateCantidad } = useOrder();
-    const items = obrasLiterariasMock;
+    const { productos, loading } = useProducts();
+
+    if (loading) return <p>Cargando productos...</p>
+
+    const items = productos.filter(p => p.categoria?.nombre === 'Obras Literarias');
 
     const externalCantidades = items.map(item => cantidades[item.id] || 0);
 

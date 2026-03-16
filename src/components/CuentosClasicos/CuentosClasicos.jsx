@@ -1,12 +1,18 @@
 import "./CuentosClasicos.scss";
 import PageSectionDistribuidores from "../PageSectionDistribuidores/PageSectionDistribuidores";
 import TablaPedidos from "../TablaPedidos/TablaPedidos";
-import { cuentosClasicosMock } from "../../data/cuentosClasicosMock";
 import { useOrder } from "../../context/OrderContext";
+import { useProducts } from "../../context/ProductContext";
 
 function CuentosClasicos({ onRetroceder, onContinuar }) {
     const { cantidades, updateCantidad } = useOrder();
-    const items = cuentosClasicosMock;
+    const { productos, loading } = useProducts();
+
+    if (loading) return <p>Cargando productos...</p>
+
+    // Filtramos SOLO los que pertenezcan a "Cuentos Clásicos"
+    // Verifica que en MongoDB tengas la propiedad "categoria" para filtrarlos correctamente
+    const items = productos.filter(p => p.categoria?.nombre === 'Cuentos Clásicos');
 
     const externalCantidades = items.map(item => cantidades[item.id] || 0);
 

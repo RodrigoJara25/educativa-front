@@ -1,40 +1,38 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axiosInstance from '../../../config/axios'
 import './AdminProductos.scss'
-
-// Mocks reales — misma estructura que devuelve el backend
-import { cuentosClasicosMock } from '../../../data/cuentosClasicosMock'
-import { obrasLiterariasMock } from '../../../data/obrasLiterariasMock'
-import { cuentosInfantilesMock } from '../../../data/cuentosInfantilesMock'
-import { diccionariosMock } from '../../../data/diccionariosMock'
-import { cuentosSelectosMock } from '../../../data/cuentosSelectosMock'
-import { cuentosEcologicosMock } from '../../../data/cuentosEcologicosMock'
-import { cuentosEducativosMock } from '../../../data/cuentosEducativosMock'
-
-// Todos los productos combinados en un solo array
-const todosLosProductos = [
-    ...cuentosClasicosMock,
-    ...obrasLiterariasMock,
-    ...cuentosInfantilesMock,
-    ...diccionariosMock,
-    ...cuentosSelectosMock,
-    ...cuentosEcologicosMock,
-    ...cuentosEducativosMock,
-]
-
-// Categorías únicas extraídas de los productos
-const categoriasUnicas = [
-    'Todas',
-    ...new Set(todosLosProductos.map(p => p.categoria.nombre))
-]
 
 function AdminProductos() {
     const navigate = useNavigate()
     const [filtro, setFiltro] = useState('Todas')
 
+    const [productos, setProductos] = useState([])
+    const [loading, setLoading] = useState(true)
+
+    useEffect(() => {
+        // traemos la data en esta función
+        const fetchProductos = async () => {
+            try {
+                const res = await axiosInstance.get('/products')
+                setProductos(res.data)
+            } catch (error) {
+                console.error("Error al obtener los productos", error);
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchProductos()
+    }, [])
+
+    const categoriasUnicas = [
+        'Todas',
+        ...new Set(productos.map(p => p.categoria?.nombre).filter(Boolean))
+    ]
+
     const productosFiltrados = filtro === 'Todas'
-        ? todosLosProductos
-        : todosLosProductos.filter(p => p.categoria.nombre === filtro)
+        ? productos
+        : productos.filter(p => p.categoria?.nombre === filtro)
 
     const handleEditar = (id) => {
         console.log('Editar producto:', id)
@@ -84,36 +82,44 @@ function AdminProductos() {
                         </tr>
                     </thead>
                     <tbody>
-                        {productosFiltrados.map(producto => (
-                            <tr key={producto.id}>
-                                <td className="td-item">{producto.item}</td>
-                                <td>{producto.titulo}</td>
-                                <td>{producto.categoria.nombre}</td>
-                                <td>
-                                    <span className={`badge-tipo ${producto.categoria.tipo.toLowerCase()}`}>
-                                        {producto.categoria.tipo}
-                                    </span>
-                                </td>
-                                <td className="td-acciones">
-                                    <button
-                                        className="btn-editar"
-                                        onClick={() => handleEditar(producto.id)}
-                                    >
-                                        Editar
-                                    </button>
-                                    <button
-                                        className="btn-eliminar"
-                                        onClick={() => handleEliminar(producto.id)}
-                                    >
-                                        Eliminar
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
+                        {loading ? (
+                            <tr><td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>Cargando productos...</td></tr>
+                        ) : productosFiltrados.length === 0 ? (
+                            <tr><td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>No hay productos creados aún.</td></tr>
+                        ) : (
+                            productosFiltrados.map(producto => (
+                                <tr key={producto.id}> {/* Usas .id gracias a tu DTO */}
+                                    <td className="td-item">{producto.item}</td>
+                                    <td>{producto.titulo || producto.item}</td>
+                                    <td>{producto.categoria?.nombre || 'Sin categoría'}</td>
+                                    <td>
+                                        {/* Revisamos si existe la categoría antes de poner el css del badge */}
+                                        {producto.categoria?.tipo && (
+                                            <span className={`badge-tipo ${producto.categoria.tipo.toLowerCase()}`}>
+                                                {producto.categoria.tipo}
+                                            </span>
+                                        )}
+                                    </td>
+                                    <td className="td-acciones">
+                                        <button
+                                            className="btn-editar"
+                                            onClick={() => handleEditar(producto.id)}
+                                        >
+                                            Editar
+                                        </button>
+                                        <button
+                                            className="btn-eliminar"
+                                            onClick={() => handleEliminar(producto.id)}
+                                        >
+                                            Eliminar
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>
-
         </div>
     )
 }

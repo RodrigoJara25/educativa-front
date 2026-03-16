@@ -1,18 +1,14 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './AdminLaminaForm.scss'
-import { categoriasMock } from '../../../data/categoriasMock'
 import { laminasMock } from '../../../data/laminasMock'
 import axiosInstance from '../../../config/axios'
-
-// Buscamos la única categoría tipo LAMINA
-const categoriaLaminaUnica = categoriasMock.find(c => c.tipo === 'LAMINA')
-
-// Subcategorías disponibles
-const subcategoriasDisponibles = laminasMock.map(grupo => grupo.subcategoria)
+import { useCategories } from '../../../context/CategoryContext'
 
 function AdminLaminaForm() {
     const navigate = useNavigate()
+
+    const { categorias, subcategorias, loading: loadingCat } = useCategories()
 
     const [form, setForm] = useState({
         item: '',
@@ -23,6 +19,21 @@ function AdminLaminaForm() {
     const [preview, setPreview] = useState(null)
     const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+
+    // Buscamos la única categoría tipo LAMINA
+    const categoriaLaminaUnica = categorias.find(cat => cat.tipo === 'LAMINA')
+
+    // Subactegorias disponibles para Lamians
+    const subcategoriasDisponibles = subcategorias.filter(sub => sub.categoria._id === categoriaLaminaUnica?._id)
+
+    // Esta funcion se encarga de pre-seleccionar la categoria LAMINA en el formulario
+    // Esto se hace para que el usuario no tenga que seleccionar la categoria LAMINA
+    // ya que esta pre-seleccionada por defecto
+    useEffect(() => {
+        if (categoriaLaminaUnica) {
+            setForm(prev => ({ ...prev, categoria: categoriaLaminaUnica._id }))
+        }
+    }, [categoriaLaminaUnica])
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value })

@@ -1,14 +1,16 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import './AdminProductoForm.scss'
-import { categoriasMock } from '../../../data/categoriasMock'
 import axiosInstance from '../../../config/axios'
-
-// Solo categorías tipo LIBRO (no LAMINA)
-const categoriasLibro = categoriasMock.filter(c => c.tipo === 'LIBRO')
+import { useCategories } from '../../../context/CategoryContext'
 
 function AdminProductoForm() {
     const navigate = useNavigate()
+
+    const { categorias, loading } = useCategories()
+
+    // Obteenemos solo las categorias de tipo LIBRO (solo categorias, no productos)
+    const categoriasLibros = categorias.filter(cat => cat.tipo === "LIBRO")
 
     const [form, setForm] = useState({
         item: '',
@@ -17,8 +19,8 @@ function AdminProductoForm() {
     })
     const [imagen, setImagen] = useState(null)          // File object
     const [preview, setPreview] = useState(null)        // URL para previsualizar
-    const [loading, setLoading] = useState(false)
     const [error, setError] = useState('')
+    const [isSaving, setIsSaving] = useState(false)
 
     // Maneja cambios en los inputs de texto / select
     const handleChange = (e) => {
@@ -50,7 +52,7 @@ function AdminProductoForm() {
             return
         }
 
-        setLoading(true)
+        setIsSaving(true)
         setError('')
 
         try {
@@ -68,7 +70,7 @@ function AdminProductoForm() {
             console.error(err)
             setError('Error al guardar el producto. Intenta de nuevo.')
         } finally {
-            setLoading(false)
+            setIsSaving(false)
         }
     }
 
@@ -123,11 +125,17 @@ function AdminProductoForm() {
                                     onChange={handleChange}
                                 >
                                     <option value="">-- Selecciona una categoría --</option>
-                                    {categoriasLibro.map(cat => (
-                                        <option key={cat._id} value={cat._id}>
-                                            {cat.nombre}
-                                        </option>
-                                    ))}
+                                    {
+                                        loading ? (
+                                            <option disabled>Cargando categorias</option>
+                                        ) : (
+                                            categoriasLibros.map(cat => (
+                                                <option key={cat._id} value={cat._id}>
+                                                    {cat.nombre}
+                                                </option>
+                                            ))
+                                        )
+                                    }
                                 </select>
                             </div>
 
@@ -171,9 +179,9 @@ function AdminProductoForm() {
                         <button
                             type="submit"
                             className="btn-guardar"
-                            disabled={loading}
+                            disabled={isSaving}
                         >
-                            {loading ? 'Guardando...' : 'Guardar producto'}
+                            {isSaving ? 'Guardando...' : 'Guardar producto'}
                         </button>
                     </div>
 

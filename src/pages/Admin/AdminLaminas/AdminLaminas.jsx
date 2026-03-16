@@ -1,16 +1,47 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import axiosInstance from '../../../config/axios'
+import { useCategories } from '../../../context/CategoryContext'
 import './AdminLaminas.scss'
-import { laminasMock } from '../../../data/laminasMock'
 
 function AdminLaminas() {
     const navigate = useNavigate()
     const [subcatActiva, setSubcatActiva] = useState('todas')
+    // 1. Usamos nuestro contexto para los TABS
+    const { categorias, subcategorias } = useCategories()
+    const categoriaLamina = categorias.find(cat => cat.tipo === 'LAMINA')
 
-    // Láminas a mostrar según el tab activo
+    // Obtenemos qué subcategorías corresponden a Láminas para dibujar los botones
+    const tabsSubcategorias = subcategorias.filter(sub => {
+        const idCat = sub.categoria?._id || sub.categoria
+        return idCat === categoriaLamina?._id
+    })
+    // 2. Traemos las láminas reales
+    const [laminas, setLaminas] = useState([])
+    const [loading, setLoading] = useState(true)
+    useEffect(() => {
+        const fetchLaminas = async () => {
+            try {
+                // Traemos los productos reales
+                const res = await axiosInstance.get('/products')
+                // Filtramos para guardarnos SOLO los que sean tipo 'LAMINA'
+                const soloLaminas = res.data.filter(p => p.categoria?.tipo === 'LAMINA')
+                setLaminas(soloLaminas)
+            } catch (error) {
+                console.error("Error al obtener las láminas", error)
+            } finally {
+                setLoading(false)
+            }
+        }
+        fetchLaminas()
+    }, [])
+    // 3. Filtramos las láminas a mostrar en la tabla según el Tab activado
     const laminasMostradas = subcatActiva === 'todas'
-        ? laminasMock.flatMap(grupo => grupo.laminas)
-        : laminasMock.find(g => g.subcategoria._id === subcatActiva)?.laminas ?? []
+        ? laminas
+        : laminas.filter(lam => {
+            const lamSub = lam.subcategoria?._id || lam.subcategoria
+            return lamSub === subcatActiva
+        })
 
     const handleEditar = (id) => {
         console.log('Editar lámina:', id)
@@ -38,29 +69,30 @@ function AdminLaminas() {
 
             {/* Tabs de subcategorías */}
             <div className="laminas-tabs">
-
-                {/* Botón "Todas" manual */}
                 <button
                     className={`tab-btn ${subcatActiva === 'todas' ? 'active' : ''}`}
                     onClick={() => setSubcatActiva('todas')}
                 >
                     Todas
-                    <span className="tab-count">
-                        ({laminasMock.reduce((acc, g) => acc + g.laminas.length, 0)})
-                    </span>
+                    <span className="tab-count">({laminas.length})</span>
                 </button>
-
-                {/* Un botón por cada subcategoría */}
-                {laminasMock.map(grupo => (
-                    <button
-                        key={grupo.subcategoria._id}
-                        className={`tab-btn ${subcatActiva === grupo.subcategoria._id ? 'active' : ''}`}
-                        onClick={() => setSubcatActiva(grupo.subcategoria._id)}
-                    >
-                        {grupo.subcategoria.nombre}
-                        <span className="tab-count">({grupo.laminas.length})</span>
-                    </button>
-                ))}
+                {/* Un botón por cada subcategoría real */}
+                {tabsSubcategorias.map(sub => {
+                    const cantidad = laminas.filter(lam => {
+                        const lamSub = lam.subcategoria?._id || lam.subcategoria
+                        return lamSub === sub._id
+                    }).length
+                    return (
+                        <button
+                            key={sub._id} /* Usamos el ._id del backend */
+                            className={`tab-btn ${subcatActiva === sub._id ? 'active' : ''}`}
+                            onClick={() => setSubcatActiva(sub._id)}
+                        >
+                            {sub.nombre}
+                            <span className="tab-count">({cantidad})</span>
+                        </button>
+                    )
+                })}
             </div>
 
             {/* Tabla */}
@@ -75,16 +107,17 @@ function AdminLaminas() {
                         </tr>
                     </thead>
                     <tbody>
-                        {laminasMostradas.map((lamina, index) => {
-                            // Encontrar el nombre de la subcategoría de esta lámina
-                            const grupo = laminasMock.find(g =>
-                                g.subcategoria._id === lamina.subcategoria._id
-                            )
-                            return (
+                        {loading ? (
+                            <tr><td colSpan="4" style={{ textAlign: "center", padding: "20px" }}>Cargando láminas...</td></tr>
+                        ) : laminasMostradas.length === 0 ? (
+                            <tr><td colSpan="4" style={{ textAlign: "center", padding: "20px" }}>No hay láminas creadas aún.</td></tr>
+                        ) : (
+                            laminasMostradas.map((lamina, index) => (
                                 <tr key={lamina.id}>
                                     <td className="td-num">{index + 1}</td>
                                     <td className="td-item">{lamina.item}</td>
-                                    <td>{grupo?.subcategoria.nombre}</td>
+                                    {/* Mostramos el nombre de la subcategoría */}
+                                    <td>{lamina.subcategoria?.nombre || 'Sin subcategoría'}</td>
                                     <td className="td-acciones">
                                         <button
                                             className="btn-editar"
@@ -100,8 +133,8 @@ function AdminLaminas() {
                                         </button>
                                     </td>
                                 </tr>
-                            )
-                        })}
+                            ))
+                        )}
                     </tbody>
                 </table>
             </div>

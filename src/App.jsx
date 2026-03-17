@@ -7,6 +7,7 @@ import QuienesSomos from './pages/QuienesSomos/QuienesSomos'
 import NuestrosProductos from './pages/NuestrosProductos/NuestrosProductos'
 import Contactenos from './pages/Contactenos/Contactenos'
 import PedidosDistribuidores from './pages/PedidosDistribuidores/PedidosDistribuidores'
+import CategoriaDetalle from './pages/CategoriaDetalle/CategoriaDetalle'
 
 // Admin
 import AdminLayout from './components/Admin/AdminLayout/AdminLayout'
@@ -55,6 +56,7 @@ function App() {
                 <Route path="/nuestros-productos" element={<NuestrosProductos />} />
                 <Route path="/contactenos" element={<Contactenos />} />
                 <Route path="/pedidos-distribuidores" element={<PedidosDistribuidores />} />
+                <Route path="/categoria/:id" element={<CategoriaDetalle />} />
               </Routes>
             </div>
             <Footer />

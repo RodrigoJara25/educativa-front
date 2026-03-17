@@ -1,7 +1,9 @@
 import "./Layout.scss"
+import { useCategories } from "../../context/CategoryContext";
+import { Link } from "react-router-dom";
 
 function Layout({ children }) {
-    const categorias = ['Diccionarios', 'Láminas', 'Cuentos Clásicos', 'Obras Literarias', 'Cuentos Selectos', 'Cuentos Ecológicos', 'Cuentos Educativos', 'Cuentos Infantiles']
+    const { categorias, loading } = useCategories();
     return (
         <>
             <div className="layout">
@@ -10,13 +12,17 @@ function Layout({ children }) {
                         <div className="layout-container">
                             <div className="categorias-menu">
                                 <ul>
-                                    {
-                                        categorias.map((palabra, index) => (
-                                            <li key={index}>
-                                                {palabra}
+                                    {loading ? (
+                                        <li>Cargando...</li>
+                                    ) : (
+                                        categorias.map((cat) => (
+                                            <li key={cat._id}>
+                                                <Link to={`/categoria/${cat._id}`}>
+                                                    {cat.nombre}
+                                                </Link>
                                             </li>
                                         ))
-                                    }
+                                    )}
                                 </ul>
                             </div>
                             <div className="layout-general">

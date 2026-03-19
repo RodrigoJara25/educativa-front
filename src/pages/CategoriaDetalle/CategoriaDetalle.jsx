@@ -6,6 +6,52 @@ import Layout from '../../components/Layout/Layout'
 import PageSection from '../../components/PageSection/PageSection'
 import './CategoriaDetalle.scss'
 
+/**
+ * Parsea la descripción con formato personalizado:
+ * - *texto* → negrita + salto de línea
+ * - línea que termina en / → doble salto de línea
+ */
+function parseDescripcion(texto) {
+    if (!texto) return null
+
+    const lineas = texto.split('\n')
+    const elementos = []
+
+    lineas.forEach((linea, i) => {
+        // Verificar si la línea termina en /
+        const doubleBr = linea.trimEnd().endsWith('/')
+        // Quitar el / del final si existe
+        const lineaLimpia = doubleBr ? linea.trimEnd().slice(0, -1) : linea
+
+        // Separar por *texto* para encontrar negritas
+        const partes = lineaLimpia.split(/\*([^*]+)\*/)
+        let tieneBold = false
+
+        partes.forEach((parte, j) => {
+            if (j % 2 === 1) {
+                // Las partes impares son el contenido entre * *
+                tieneBold = true
+                elementos.push(<strong key={`${i}-${j}`}>{parte}</strong>)
+                elementos.push(<br key={`${i}-${j}-br`} />)
+            } else if (parte) {
+                elementos.push(<span key={`${i}-${j}`}>{parte}</span>)
+            }
+        })
+
+        // Salto de línea normal entre líneas (solo si no hubo negrita, porque el bold ya agrega su <br>)
+        if (i < lineas.length - 1 && !tieneBold) {
+            elementos.push(<br key={`br-${i}`} />)
+        }
+
+        // Si termina en /, doble salto de línea (uno extra)
+        if (doubleBr) {
+            elementos.push(<br key={`dbr-${i}`} />)
+        }
+    })
+
+    return elementos
+}
+
 function CategoriaDetalle() {
     // 1. Agarramos el ID de la categoría que enviamos por la URL
     const { id } = useParams()
@@ -29,7 +75,7 @@ function CategoriaDetalle() {
                 <div className="categoria-detalle-container">
                     {/* Descripción */}
                     <div className="categoria-info">
-                        <p>{categoriaActiva.descripcion || 'Explora todos los asombrosos productos que tenemos en esta categoría para ti.'}</p>
+                        <p>{parseDescripcion(categoriaActiva.descripcion) || 'Explora todos los asombrosos productos que tenemos en esta categoría para ti.'}</p>
                     </div>
 
                     {/* Características */}
@@ -53,7 +99,22 @@ function CategoriaDetalle() {
                                 <div key={prod.id} className="producto-card">
                                     {prod.fotoPortada ? <img src={prod.fotoPortada} alt={prod.item} /> : <div className="foto-placeholder">Sin Foto</div>}
                                     <div className="producto-titulo-row">
-                                        <span className="producto-nombre">{prod.titulo}</span>
+                                        <div className="producto-nombre">
+                                            {prod.titulo.split('/').map((parte, i) => {
+                                                const trimmed = parte.trim()
+                                                const tieneAsteriscos = /\*([^*]+)\*/.test(trimmed)
+                                                const segmentos = trimmed.split(/\*([^*]+)\*/)
+                                                return (
+                                                    <div key={i} className={tieneAsteriscos ? 'titulo-lista' : 'titulo-principal'}>
+                                                        {segmentos.map((seg, j) =>
+                                                            j % 2 === 1
+                                                                ? <span key={j} style={{ fontWeight: 'normal' }}>{seg}</span>
+                                                                : <span key={j}>{seg}</span>
+                                                        )}
+                                                    </div>
+                                                )
+                                            })}
+                                        </div>
                                         <button className="btn-ver-mas">Ver más</button>
                                     </div>
                                 </div>

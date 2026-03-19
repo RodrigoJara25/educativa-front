@@ -38,13 +38,18 @@
 
     // Características (lista con bullets)
     .categoria-caracteristicas {
-        padding-left: 20px;
+        padding-left: 0;
         margin-top: 5px;
 
         .caracteristicas-titulo {
             font-weight: bold;
             font-size: 1rem;
             margin-bottom: 8px;
+        }
+
+        ul {
+            padding-left: 0;
+            list-style-position: inside;
         }
 
         li {
@@ -99,6 +104,7 @@
 
             .producto-titulo-row {
                 display: flex;
+                flex-direction: column;
                 align-items: center;
                 gap: 8px;
                 margin-top: 8px;
@@ -106,9 +112,18 @@
 
                 .producto-nombre {
                     font-size: 0.75rem;
-                    font-weight: 400;
+                    font-weight: bold;
                     color: #333;
-                    line-height: 1.2;
+                    line-height: 1.6;
+                    width: 100%;
+
+                    .titulo-principal {
+                        text-align: center;
+                    }
+
+                    .titulo-lista {
+                        text-align: left;
+                    }
                 }
 
                 .btn-ver-mas {

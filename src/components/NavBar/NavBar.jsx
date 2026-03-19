@@ -24,28 +24,28 @@ function NavBar() {
                     <ul>
                         <li>
                             <Link to="/">
-                                <img src={inicio} alt="inicio" />
+                                <img src={inicio} alt="inicio" className='btn-nav' />
                             </Link>
                         </li>
                         <li>
                             <Link to="/quienes-somos">
-                                <img src={quienes_somos} alt="quienes-somos" />
+                                <img src={quienes_somos} alt="quienes-somos" className='btn-nav' />
                             </Link>
                         </li>
                         <li>
                             <Link to="/nuestros-productos">
-                                <img src={productos} alt="productos" />
+                                <img src={productos} alt="productos" className='btn-nav' />
                             </Link>
                         </li>
                         <li>
                             <Link to="/contactenos">
-                                <img src={contactenos} alt="contactenos" />
+                                <img src={contactenos} alt="contactenos" className='btn-nav' />
                             </Link>
                         </li>
                         <li>
                             {/* Aca no es Link, ahora abre el modal */}
                             <button className='btn-nav-pedidos' onClick={() => setModalAbierto(true)}>
-                                <img src={pedidos_distribuidores} alt="pedidos-distribuidores" />
+                                <img src={pedidos_distribuidores} alt="pedidos-distribuidores" className='btn-nav' />
                             </button>
                         </li>
                     </ul>

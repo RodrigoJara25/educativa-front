@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axiosInstance from '../../../config/axios'
+import Swal from 'sweetalert2'
 import './AdminProductos.scss'
 
 function AdminProductos() {
@@ -35,11 +36,30 @@ function AdminProductos() {
         : productos.filter(p => p.categoria?.nombre === filtro)
 
     const handleEditar = (id) => {
-        console.log('Editar producto:', id)
+        navigate(`/admin/productos/editar/${id}`)
     }
 
-    const handleEliminar = (id) => {
-        console.log('Eliminar producto:', id)
+    const handleEliminar = async (id) => {
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Este producto se eliminará permanentemente',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e74c3c',
+            cancelButtonColor: '#999',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        })
+
+        if (!result.isConfirmed) return
+        try {
+            await axiosInstance.delete(`/products/${id}`)
+            setProductos(prev => prev.filter(p => p.id !== id))
+            Swal.fire('Eliminado', 'El producto ha sido eliminado', 'success')
+        } catch (error) {
+            console.error('Error al eliminar el producto:', error)
+            Swal.fire('Error', 'Hubo un error al eliminar el producto', 'error')
+        }
     }
 
     return (

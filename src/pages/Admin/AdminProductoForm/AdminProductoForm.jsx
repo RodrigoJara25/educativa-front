@@ -1,11 +1,14 @@
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import './AdminProductoForm.scss'
 import axiosInstance from '../../../config/axios'
 import { useCategories } from '../../../context/CategoryContext'
 
 function AdminProductoForm() {
     const navigate = useNavigate()
+    const { id } = useParams()
+
+    const esEdicion = Boolean(id)   // devuelve true si hay id, false si no
 
     const { categorias, loading } = useCategories()
 
@@ -21,6 +24,28 @@ function AdminProductoForm() {
     const [preview, setPreview] = useState(null)        // URL para previsualizar
     const [error, setError] = useState('')
     const [isSaving, setIsSaving] = useState(false)
+
+    useEffect(() => {
+        if (!esEdicion) return
+        const fetchProducto = async () => {
+            try {
+                const res = await axiosInstance.get(`/products/${id}`)
+                const prod = res.data
+                setForm({
+                    item: prod.item || '',
+                    titulo: prod.titulo || '',
+                    categoria: prod.categoria?._id || '',
+                })
+                if (prod.fotoPortada) {
+                    setPreview(prod.fotoPortada)
+                }
+            } catch (err) {
+                console.error('Error al cargar producto:', err)
+                setError('No se pudo cargar el producto')
+            }
+        }
+        fetchProducto()
+    }, [id, esEdicion])
 
     // Maneja cambios en los inputs de texto / select
     const handleChange = (e) => {
@@ -40,7 +65,7 @@ function AdminProductoForm() {
         if (!form.item.trim()) return 'El código del producto (Item) es obligatorio'
         if (!form.titulo.trim()) return 'El título es obligatorio'
         if (!form.categoria) return 'Debes seleccionar una categoría'
-        if (!imagen) return 'Debes seleccionar una imagen de portada'
+        if (!imagen && !esEdicion) return 'Debes seleccionar una imagen de portada'
         return null
     }
 
@@ -62,8 +87,11 @@ function AdminProductoForm() {
             formData.append('categoria', form.categoria)
             formData.append('image', imagen)   // key 'image' según el backend
 
-            await axiosInstance.post('/products', formData)
-            // ⚠️ No ponemos Content-Type — axios lo pone solo con el boundary correcto
+            if (esEdicion) {
+                await axiosInstance.put(`/products/${id}`, formData)
+            } else {
+                await axiosInstance.post('/products', formData)
+            }
 
             navigate('/admin/productos')   // volver a la lista al guardar
         } catch (err) {
@@ -78,7 +106,7 @@ function AdminProductoForm() {
         <div className="admin-producto-form">
 
             <div className="form-header">
-                <h1 className="form-titulo">Agregar producto</h1>
+                <h1 className="form-titulo">{esEdicion ? 'Editar producto' : 'Agregar producto'}</h1>
             </div>
 
             <div className="form-card">
@@ -181,7 +209,7 @@ function AdminProductoForm() {
                             className="btn-guardar"
                             disabled={isSaving}
                         >
-                            {isSaving ? 'Guardando...' : 'Guardar producto'}
+                            {isSaving ? 'Guardando...' : (esEdicion ? 'Actualizar producto' : 'Guardar producto')}
                         </button>
                     </div>
 

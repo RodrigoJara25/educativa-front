@@ -36,9 +36,13 @@ function App() {
         <Route path="/admin/productos/nuevo" element={
           <AdminLayout><AdminProductoForm /></AdminLayout>
         } />
+        <Route path="/admin/productos/editar/:id" element={
+          <AdminLayout><AdminProductoForm /></AdminLayout>
+        } />
         <Route path="/admin/laminas/nuevo" element={
           <AdminLayout><AdminLaminaForm /></AdminLayout>
         } />
+
         {/* Rutas en Construcción */}
         <Route path="/admin/pedidos" element={<AdminLayout><Proximamente modulo="Pedidos" /></AdminLayout>} />
         <Route path="/admin/distribuidores" element={<AdminLayout><Proximamente modulo="Distribuidores" /></AdminLayout>} />

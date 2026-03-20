@@ -233,6 +233,7 @@ function PedidosResumen({ onRetroceder, onContinuar }) {
                     externalCantidades={itemsResumen.map(i => i.cantidad)}
                     showFooter={true}
                     customTotal={totalGeneral}
+                    readOnly={true}
                 />
 
                 {/* ── Botón para descargar el PDF ──────────────────────────────

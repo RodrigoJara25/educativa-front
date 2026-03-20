@@ -1,19 +1,13 @@
 import { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useCategories } from "../../context/CategoryContext";
 import "swiper/css";
 import "./CategoriesCarrusel.scss";
 
-// imagenes de categorias
-import cover1 from "../../assets/carousel-categories/diccionarios.png";
-import cover2 from "../../assets/carousel-categories/ecologicos.png";
-import cover3 from "../../assets/carousel-categories/laminas.png";
-import cover4 from "../../assets/carousel-categories/laminas2.png";
-import cover5 from "../../assets/carousel-categories/obras.png";
-import cover6 from "../../assets/carousel-categories/selectos.png";
-
-const covers = [cover1, cover2, cover3, cover4, cover5, cover6];
-
 function CategoriesCarrusel() {
+
+    const { categorias } = useCategories();
+
     const swiperRef = useRef(null);
 
     return (
@@ -27,20 +21,20 @@ function CategoriesCarrusel() {
             <div className="swiper-wrapper-container">
                 <Swiper
                     onSwiper={(swiper) => { swiperRef.current = swiper; }}
-                    // slidesPerView={6}
-                    spaceBetween={10}
                     loop={false}
-                    breakpoints={{
-                        320: { slidesPerView: 2, spaceBetween: 12 },
-                        640: { slidesPerView: 3, spaceBetween: 16 },
-                        900: { slidesPerView: 4, spaceBetween: 20 },
-                        1260: { slidesPerView: 5, spaceBetween: 20 },
-                        1380: { slidesPerView: 6, spaceBetween: 20 },
-                    }}
+                    // breakpoints={{
+                    //     320: { slidesPerView: 2, spaceBetween: 12 },
+                    //     640: { slidesPerView: 3, spaceBetween: 16 },
+                    //     900: { slidesPerView: 4, spaceBetween: 20 },
+                    //     1260: { slidesPerView: 5, spaceBetween: 20 },
+                    //     1380: { slidesPerView: 6, spaceBetween: 50 },
+                    // }}
+                    slidesPerView={'auto'} // Esto quita el width fijo y pone 'auto'
+                    spaceBetween={15}       // Esto quita el margin-right
                 >
-                    {covers.map((src, i) => (
+                    {categorias.map((categoria, i) => (
                         <SwiperSlide key={i} className="categories-slide">
-                            <img src={src} alt={`Categoría ${i + 1}`} />
+                            <img src={categoria.fotoPortada} alt={`Categoría ${i + 1}`} />
                         </SwiperSlide>
                     ))}
                 </Swiper>

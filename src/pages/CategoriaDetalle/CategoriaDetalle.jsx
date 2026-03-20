@@ -74,7 +74,7 @@ function CategoriaDetalle() {
     return (
         <>
             <Layout>
-                <PageSection headerImg={categoriaActiva.foto} headerAlt={categoriaActiva.nombre} variant={categoriaActiva.nombre === 'Cuentos Clásicos' ? 'new' : 'old'}>
+                <PageSection headerImg={categoriaActiva.foto} headerAlt={categoriaActiva.nombre} variant={['Cuentos Clásicos', 'Cuentos Educativos', 'Cuentos Infantiles'].includes(categoriaActiva.nombre) ? 'new' : 'old'}>
                     <div className="categoria-detalle-container">
                         {/* Descripción */}
                         <div className="categoria-info">

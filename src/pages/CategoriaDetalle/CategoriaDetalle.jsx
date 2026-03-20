@@ -5,6 +5,7 @@ import { useProducts } from '../../context/ProductContext'
 import Layout from '../../components/Layout/Layout'
 import PageSection from '../../components/PageSection/PageSection'
 import CategoriesSection from '../../components/CategoriesSection/CategoriesSection'
+import LaminasDetalle from '../../components/LaminasDetalle/LaminasDetalle';
 import './CategoriaDetalle.scss'
 
 /**
@@ -92,37 +93,42 @@ function CategoriaDetalle() {
                             </div>
                         )}
 
-                        {/* Lista de productos */}
-                        <div className="productos-grid">
-                            {productosDeCategoria.length === 0 ? (
-                                <p className="no-productos">No existen productos registrados por el momento.</p>
-                            ) : (
-                                productosDeCategoria.map(prod => (
-                                    <div key={prod.id} className="producto-card">
-                                        {prod.fotoPortada ? <img src={prod.fotoPortada} alt={prod.item} /> : <div className="foto-placeholder">Sin Foto</div>}
-                                        <div className="producto-titulo-row">
-                                            <div className="producto-nombre">
-                                                {prod.titulo.split('/').map((parte, i) => {
-                                                    const trimmed = parte.trim()
-                                                    const tieneAsteriscos = /\*([^*]+)\*/.test(trimmed)
-                                                    const segmentos = trimmed.split(/\*([^*]+)\*/)
-                                                    return (
-                                                        <div key={i} className={tieneAsteriscos ? 'titulo-lista' : 'titulo-principal'}>
-                                                            {segmentos.map((seg, j) =>
-                                                                j % 2 === 1
-                                                                    ? <span key={j} style={{ fontWeight: 'normal' }}>{seg}</span>
-                                                                    : <span key={j}>{seg}</span>
-                                                            )}
-                                                        </div>
-                                                    )
-                                                })}
+                        {/* Lista de productos / laminas condicional */}
+                        {categoriaActiva.nombre === "Láminas Educativas" ? (
+                            <LaminasDetalle productos={productosDeCategoria} />
+                        ) : (
+                            // Lista de productos
+                            <div className="productos-grid">
+                                {productosDeCategoria.length === 0 ? (
+                                    <p className="no-productos">No existen productos registrados por el momento.</p>
+                                ) : (
+                                    productosDeCategoria.map(prod => (
+                                        <div key={prod.id} className="producto-card">
+                                            {prod.fotoPortada ? <img src={prod.fotoPortada} alt={prod.item} /> : <div className="foto-placeholder">Sin Foto</div>}
+                                            <div className="producto-titulo-row">
+                                                <div className="producto-nombre">
+                                                    {prod.titulo.split('/').map((parte, i) => {
+                                                        const trimmed = parte.trim()
+                                                        const tieneAsteriscos = /\*([^*]+)\*/.test(trimmed)
+                                                        const segmentos = trimmed.split(/\*([^*]+)\*/)
+                                                        return (
+                                                            <div key={i} className={tieneAsteriscos ? 'titulo-lista' : 'titulo-principal'}>
+                                                                {segmentos.map((seg, j) =>
+                                                                    j % 2 === 1
+                                                                        ? <span key={j} style={{ fontWeight: 'normal' }}>{seg}</span>
+                                                                        : <span key={j}>{seg}</span>
+                                                                )}
+                                                            </div>
+                                                        )
+                                                    })}
+                                                </div>
+                                                <button className="btn-ver-mas">Ver más</button>
                                             </div>
-                                            <button className="btn-ver-mas">Ver más</button>
                                         </div>
-                                    </div>
-                                ))
-                            )}
-                        </div>
+                                    ))
+                                )}
+                            </div>
+                        )}
                     </div>
                 </PageSection>
             </Layout>

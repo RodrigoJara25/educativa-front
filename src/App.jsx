@@ -42,6 +42,9 @@ function App() {
         <Route path="/admin/laminas/nuevo" element={
           <AdminLayout><AdminLaminaForm /></AdminLayout>
         } />
+        <Route path="/admin/laminas/editar/:id" element={
+          <AdminLayout><AdminLaminaForm /></AdminLayout>
+        } />
 
         {/* Rutas en Construcción */}
         <Route path="/admin/pedidos" element={<AdminLayout><Proximamente modulo="Pedidos" /></AdminLayout>} />

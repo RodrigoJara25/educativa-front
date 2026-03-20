@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import './AdminLaminaForm.scss'
 import { laminasMock } from '../../../data/laminasMock'
 import axiosInstance from '../../../config/axios'
@@ -7,6 +7,8 @@ import { useCategories } from '../../../context/CategoryContext'
 
 function AdminLaminaForm() {
     const navigate = useNavigate()
+    const { id } = useParams()
+    const esEdicion = Boolean(id)
 
     const { categorias, subcategorias, loading: loadingCat } = useCategories()
 
@@ -34,10 +36,36 @@ function AdminLaminaForm() {
     // Esto se hace para que el usuario no tenga que seleccionar la categoria LAMINA
     // ya que esta pre-seleccionada por defecto
     useEffect(() => {
-        if (categoriaLaminaUnica) {
+        if (categoriaLaminaUnica && !esEdicion) {
             setForm(prev => ({ ...prev, categoria: categoriaLaminaUnica._id }))
         }
-    }, [categoriaLaminaUnica])
+    }, [categoriaLaminaUnica, esEdicion])
+
+    useEffect(() => {
+        if (!esEdicion) return
+
+        const fetchLamina = async () => {
+            try {
+                const res = await axiosInstance.get(`/products/${id}`)
+                const lam = res.data
+                setForm(prev => ({
+                    ...prev,
+                    item: lam.item || '',
+                    subcategoria: lam.subcategoria?._id || lam.subcategoria || '',
+                }))
+                if (lam.categoria) {
+                    setForm(prev => ({ ...prev, categoria: lam.categoria?._id || lam.categoria }))
+                }
+                if (lam.fotoPortada) {
+                    setPreview(lam.fotoPortada)
+                }
+            } catch (err) {
+                console.error('Error al cargar lámina:', err)
+                setError('No se pudo cargar la lámina')
+            }
+        }
+        fetchLamina()
+    }, [id, esEdicion])
 
     const handleChange = (e) => {
         setForm({ ...form, [e.target.name]: e.target.value })
@@ -54,7 +82,7 @@ function AdminLaminaForm() {
         if (!form.item.trim()) return 'El código (Item) es obligatorio'
         if (!form.categoria) return 'Error: No se encontró la categoría Láminas'
         if (!form.subcategoria) return 'Debes seleccionar una subcategoría'
-        if (!imagen) return 'Debes seleccionar la imagen de la lámina'
+        if (!imagen && !esEdicion) return 'Debes seleccionar la imagen de la lámina'
         return null
     }
 
@@ -76,7 +104,11 @@ function AdminLaminaForm() {
             formData.append('subcategoria', form.subcategoria)
             formData.append('image', imagen)
 
-            await axiosInstance.post('/products', formData)
+            if (esEdicion) {
+                await axiosInstance.put(`/products/${id}`, formData)
+            } else {
+                await axiosInstance.post('/products', formData)
+            }
             navigate('/admin/laminas')
         } catch (err) {
             console.error(err)
@@ -90,7 +122,7 @@ function AdminLaminaForm() {
         <div className="admin-lamina-form">
 
             <div className="form-header">
-                <h1 className="form-titulo">Agregar nueva lámina</h1>
+                <h1 className="form-titulo">{esEdicion ? 'Editar lámina' : 'Agregar nueva lámina'}</h1>
             </div>
 
             <div className="form-card">
@@ -182,7 +214,7 @@ function AdminLaminaForm() {
                             className="btn-guardar"
                             disabled={loading}
                         >
-                            {loading ? 'Guardando...' : 'Guardar lámina'}
+                            {loading ? 'Guardando...' : (esEdicion ? 'Actualizar lámina' : 'Guardar lámina')}
                         </button>
                     </div>
 

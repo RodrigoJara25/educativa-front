@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axiosInstance from '../../../config/axios'
+import Swal from 'sweetalert2'
 import { useCategories } from '../../../context/CategoryContext'
 import './AdminLaminas.scss'
 
@@ -44,11 +45,31 @@ function AdminLaminas() {
         })
 
     const handleEditar = (id) => {
-        console.log('Editar lámina:', id)
+        navigate(`/admin/laminas/editar/${id}`)
     }
 
-    const handleEliminar = (id) => {
-        console.log('Eliminar lámina:', id)
+    const handleEliminar = async (id) => {
+        const result = await Swal.fire({
+            title: '¿Estás seguro?',
+            text: 'Esta lámina se eliminará permanentemente',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#e74c3c',
+            cancelButtonColor: '#999',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar'
+        })
+
+        if (!result.isConfirmed) return
+
+        try {
+            await axiosInstance.delete(`/products/${id}`)
+            setLaminas(prev => prev.filter(lam => lam.id !== id && lam._id !== id))
+            Swal.fire('Eliminado', 'La lámina ha sido eliminada', 'success')
+        } catch (error) {
+            console.error('Error al eliminar la lámina:', error)
+            Swal.fire('Error', 'Hubo un error al eliminar la lámina', 'error')
+        }
     }
 
     return (

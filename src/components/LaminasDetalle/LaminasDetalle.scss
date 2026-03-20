@@ -1,0 +1,136 @@
+.laminas-detalle-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    /* Reducimos drásticamente la separación global entre secciones */
+    width: 100%;
+
+    /* Fila 1: Menú fotográfico interactivo */
+    .laminas-header-row {
+        /* ESTADO INICIAL (No hay selección): Grid de 4 columnas, 100/4 de ancho y height auto */
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+        width: 100%;
+        transition: all 0.4s ease;
+
+        &.con-seleccion {
+            /* ESTADO ACTIVO (Alguien eligió una): Volvemos al Flexbox centradito que teníamos */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .subcategoria-header-foto {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+
+            img {
+                /* Quitamos el ancho 100% para evitar que las fotos se agiganten y choquen visualmente.
+                   Fijamos su altura y dejamos que su caja exterior las mantenga centradas en el cuadrito (100/4) */
+                height: 80px;
+                width: auto;
+                max-width: 100%;
+                /* Nunca se saldrá de su celda en pantallas peques */
+                object-fit: contain;
+                border-radius: 8px;
+                transition: transform 0.3s ease, filter 0.3s ease, opacity 0.3s ease, height 0.4s ease, width 0.4s ease;
+            }
+
+            &:hover {
+                transform: scale(1.05);
+            }
+        }
+
+        &.con-seleccion .subcategoria-header-foto img {
+            /* Al haber selección, el tamaño cambia a un botón de 45px de alto con ancho dinámico */
+            height: 45px;
+            width: auto;
+            /* Se encogen bastante para verse como menú superior pequeñito */
+            opacity: 0.6;
+            filter: grayscale(20%);
+        }
+
+        &.con-seleccion .subcategoria-header-foto img:hover {
+            opacity: 1;
+            filter: grayscale(0%);
+            transform: scale(1.1);
+        }
+    }
+
+    /* Subcategoría Destacada al centro */
+    .subcategoria-destacada {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin: 0;
+        /* Ya no necesitamos margen porque el 'gap' del padre ahora es pequeño */
+        cursor: pointer;
+        transition: transform 0.3s ease;
+
+        img {
+            height: 100px;
+            /* Redujimos la imagen activa para que parezca más un menú de sección */
+            width: auto;
+            object-fit: contain;
+            /* Usamos drop-shadow para acompañar la silueta de los PNG en vez de un rectángulo */
+            filter: drop-shadow(0 15px 15px rgba(0, 0, 0, 0.3));
+        }
+
+        &:hover {
+            transform: scale(0.97);
+            /* Efecto hundido para clic */
+        }
+    }
+
+    /* Bloques por cada subcategoría */
+    .laminas-bloques {
+        display: flex;
+        flex-direction: column;
+        gap: 60px;
+
+        .laminas-grupo {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+
+            .subcategoria-titulo-foto {
+                text-align: left;
+                width: 100%;
+                border-bottom: 2px solid #eee;
+                padding-bottom: 10px;
+
+                img {
+                    height: 60px;
+                    width: auto;
+                    object-fit: contain;
+                }
+            }
+
+            .laminas-grid-2 {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+                justify-items: center;
+
+                .lamina-foto {
+                    width: 100%;
+                    max-width: 320px;
+                    /* Láminas más pequeñas para no abarcar tanta pantalla */
+
+                    img {
+                        width: 100%;
+                        height: auto;
+                        border-radius: 8px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    }
+                }
+            }
+        }
+    }
+}

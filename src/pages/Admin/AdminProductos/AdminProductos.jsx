@@ -79,15 +79,18 @@ function AdminProductos() {
             </div>
 
             <div className="productos-filtros">
-                {categoriasUnicas.map(cat => (
-                    <button
-                        key={cat}
-                        className={`filtro-btn ${filtro === cat ? 'active' : ''}`}
-                        onClick={() => setFiltro(cat)}
-                    >
-                        {cat}
-                    </button>
-                ))}
+                {categoriasUnicas.map(cat => {
+                    const cantidad = cat === 'Todas' ? productos.length : productos.filter(p => p.categoria?.nombre === cat).length;
+                    return (
+                        <button
+                            key={cat}
+                            className={`filtro-btn ${filtro === cat ? 'active' : ''}`}
+                            onClick={() => setFiltro(cat)}
+                        >
+                            {cat} <span className="tab-count">({cantidad})</span>
+                        </button>
+                    );
+                })}
             </div>
 
             <div className="productos-tabla-wrapper">

@@ -122,6 +122,14 @@
                     width: 100%;
                     max-width: 320px;
                     /* Láminas más pequeñas para no abarcar tanta pantalla */
+                    transition: transform 0.3s ease;
+
+                    /* Efecto de crecimiento y protagonismo al pasar el ratón */
+                    &:hover {
+                        transform: scale(1.03);
+                        /* Un poco más sutil que los productos porque las láminas son más grandes */
+                        z-index: 10;
+                    }
 
                     img {
                         width: 100%;

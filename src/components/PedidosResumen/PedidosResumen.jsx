@@ -43,8 +43,11 @@ function PedidosResumen({ onRetroceder, onContinuar }) {
     };
 
     // Helper Dinámico para buscar la categoría y sumar leyendo la BD
-    const sumarCategoriaDinamica = (nombreCat) => {
-        const catProducts = productos.filter(p => p.categoria?.nombre === nombreCat || p.categoria === nombreCat);
+    const sumarCategoriaDinamica = (nombre) => {
+        const catProducts = productos.filter(p => {
+            const catNombre = (typeof p.categoria === 'object' ? p.categoria?.nombre : p.categoria) || "";
+            return catNombre.trim().toLowerCase() === nombre.toLowerCase();
+        });
         return catProducts.reduce((acc, item) => acc + (cantidades[item.id || item._id] || 0), 0);
     };
 
@@ -58,7 +61,7 @@ function PedidosResumen({ onRetroceder, onContinuar }) {
     // Construimos datos de TablaPedidos con mezcla Híbrida 
     const itemsResumen = [
         { item: "RES-DICC", titulo: "Diccionarios", cantidad: sumarCategoriaDinamica('Diccionarios') },
-        { item: "RES-LAMI", titulo: "Láminas", cantidad: sumarLaminas() },
+        { item: "RES-LAMI", titulo: "Láminas", cantidad: sumarCategoriaDinamica('Láminas Educativas') },
         { item: "RES-CLAS", titulo: "Cuentos Clásicos", cantidad: sumarCategoriaDinamica('Cuentos Clásicos') },
         { item: "RES-LITE", titulo: "Obras Literarias", cantidad: sumarCategoriaDinamica('Obras Literarias') },
         { item: "RES-SELE", titulo: "Cuentos Selectos", cantidad: sumarCategoriaDinamica('Cuentos Selectos') },
@@ -137,17 +140,32 @@ function PedidosResumen({ onRetroceder, onContinuar }) {
         // El ID puede venir como .id o ._id dependiendo del transform del backend
         const idComprador = userParsed.id || userParsed._id || distribuidor.id || distribuidor._id;
 
-        // Estructura exacta solicitada por el programador de Backend
+        // 4. Traducción Final de IDs -> Nombres para el Backend
+        const ubicacionFinal = {
+            departamento: nombreDepartamento,
+            provincia: nombreProvincia,
+            distrito: nombreDistrito,
+            direccion: distribuidor.direccion || "",
+            referencia: distribuidor.referencia || ""
+        };
+
+        const logisticaFinal = {
+            agencia: distribuidor.agencia || ""
+        };
+
+        // Estructura EXACTA solicitada por el Backend
         const pedidoFinal = {
             tipo_pedido: "DISTRIBUIDOR",
             comprador_id: idComprador,
-            onModel: "distribuidores", // En minúsculas y plural
+            onModel: "distribuidores", // Obligatorio para el Backend
             productos: Object.keys(cantidades)
                 .filter(id => cantidades[id] > 0)
-                .map(id => ({
-                    producto_id: id, // Llave exacta solicitada
-                    cantidad: Number(cantidades[id])
-                }))
+                .map(id => {
+                    return {
+                        producto_id: id,
+                        cantidad: Number(cantidades[id])
+                    };
+                })
         };
 
         Swal.fire({

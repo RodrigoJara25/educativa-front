@@ -1,0 +1,83 @@
+import axios from 'axios';
+
+const TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY5Y2IxODE5NmJkYTcyZjYyMzBjNGYxMCIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTc3NTAxOTQ5MiwiZXhwIjoxNzc3NjExNDkyfQ.9fkfPjjgkLrOYY0wM2dG7KXScjkJpybZj4F0pQHeYr4";
+
+const API = axios.create({
+    baseURL: 'http://localhost:8080/api',
+    headers: { Authorization: `Bearer ${TOKEN}` }
+});
+
+const codigosInicial = ["I-6", "I-7", "I-8", "I-21", "I-22", "I-23", "I-24", "I-25", "I-28", "I-29", "I-30", "I-31", "I-32", "I-33", "I-34", "I-35", "I-36", "I-37", "I-38", "I-39", "I-40", "I-41", "I-42", "I-43", "I-44", "I-45", "I-46", "I-47", "I-48", "I-49", "I-50", "I-51", "I-52", "I-53", "I-54", "I-55", "I-56", "I-57", "I-58", "I-59", "I-60", "I-61", "I-62", "I-63", "I-64", "I-65", "I-66", "I-67", "I-68", "I-69", "I-70", "I-71", "I-72", "I-73", "I-80", "I-81", "I-82", "I-83", "I-84", "I-85", "I-86", "I-87", "I-88", "I-89", "I-90", "I-91", "I-92", "I-93", "I-94", "I-95", "I-100", "I-101", "I-102", "I-103", "I-111", "I-112", "I-113", "I-114", "I-115", "I-116", "I-117", "I-118", "I-119", "I-120", "I-121", "I-122", "I-123", "I-124", "I-125", "I-126", "I-127", "I-128", "I-129", "I-130", "I-131", "I-132", "I-133", "I-134", "I-135", "I-136", "I-137", "I-138", "I-139", "I-140", "I-141", "I-142", "I-143", "I-144", "I-145", "I-146", "I-147", "I-148", "I-149", "I-150", "I-151", "I-152", "I-153", "I-154", "I-155", "I-156", "I-157", "I-158", "I-159", "I-160", "I-161", "I-162", "I-163", "I-164", "I-165", "I-166", "I-167", "I-168", "I-169", "I-170", "I-171", "I-172", "I-173", "I-174", "I-175", "I-176", "I-177", "I-178", "I-179", "I-180", "I-181", "I-182", "I-183", "I-184", "I-185", "I-186", "I-187", "I-188", "I-189", "I-190", "I-191", "I-192", "I-193", "I-194", "I-195", "I-196", "I-197", "I-198", "I-204", "I-206", "I-207", "I-208", "I-209", "I-210", "I-211", "I-212", "I-213", "I-214", "I-215", "I-216", "I-302", "I-304", "I-305", "I-311"];
+const codigosPrimaria = ["P-01", "P-02", "P-03", "P-04", "P-05", "P-06", "P-07", "P-08", "P-09", "P-10", "P-11", "P-12", "P-13", "P-14", "P-15", "P-16", "P-17", "P-18", "P-19", "P-20", "P-21", "P-22", "P-23", "P-24", "P-25", "P-26", "P-27", "P-28", "P-29", "P-30", "P-100", "P-101", "P-102", "P-103", "P-104", "P-105", "P-106", "P-107", "P-108", "P-109", "P-110", "P-111", "P-112", "P-113", "P-114", "P-115", "P-116", "P-117", "P-118", "P-119", "P-120", "P-121", "P-122", "P-123", "P-124", "P-125", "P-126", "P-127", "P-128", "P-129", "P-200", "P-201", "P-202", "P-203", "P-214", "P-216", "P-217", "P-218", "P-219", "P-220", "P-221", "P-222", "P-223", "P-301", "P-302", "P-303", "P-304", "P-305", "P-306", "P-307", "P-308", "P-309", "P-310", "P-311", "P-312", "P-313", "P-314", "P-316", "P-317", "P-319", "P-320", "P-326", "P-327", "P-328", "P-329", "P-330", "P-331", "P-332", "P-333", "P-334", "P-335", "P-336", "P-403", "P-404", "P-405", "P-406", "P-407", "P-408", "P-409", "P-501", "P-503", "P-504", "P-506", "P-507", "P-508", "P-509", "P-512", "P-513", "P-514", "P-517", "P-520", "P-521", "P-522", "P-523", "P-524", "P-526", "P-527", "P-528", "P-529", "P-530", "P-531", "P-535", "P-536", "P-537", "P-538", "P-539", "P-540", "P-541", "P-542", "P-543", "P-544", "P-545", "P-546", "P-547", "P-548", "P-549", "P-550", "P-551", "P-552"];
+const codigosSecundaria = ["S-1", "S-2", "S-3", "S-4", "S-5", "S-6", "S-7", "S-8", "S-9", "S-10", "S-11", "S-12", "S-13", "S-14", "S-15", "S-16", "S-17", "S-18", "S-19", "S-20", "S-21", "S-22", "S-23", "S-24", "S-25", "S-26", "S-205", "S-206", "S-207", "S-208", "S-209", "S-212", "S-222", "S-223", "S-224", "S-225", "S-301", "S-302", "S-303", "S-304", "S-305", "S-306", "S-307", "S-308", "S-309", "S-310", "S-404", "S-405", "S-406"];
+const codigosFestividades = ["F-02", "F-03", "F-04", "F-09", "F-016", "F-017", "F-018", "F-022", "F-023", "F-024", "F-025", "F-029", "F-030", "F-031", "F-032", "F-033", "F-034", "F-035", "F-036", "F-037", "F-038", "F-039", "F-041", "F-042", "F-101", "F-102", "F-103", "F-104", "F-105", "F-106", "F-107", "F-108", "F-201", "F-202", "F-203", "F-204", "F-205", "F-206", "F-207", "F-208", "F-209", "F-210", "F-211", "F-212", "F-213", "F-214", "F-215", "F-216", "F-217", "F-301", "F-302", "F-303", "F-305", "F-306", "F-307", "F-308", "F-309", "F-310", "F-314", "F-316", "F-317", "F-320", "F-325", "F-326", "F-327", "F-328", "F-329", "F-330", "F-331", "F-332", "F-333", "F-334", "F-335", "F-336", "F-404", "F-405", "F-406", "F-407", "F-408", "F-409", "F-410", "F-411", "F-412", "F-413", "F-414", "F-415", "F-416", "F-417", "F-418", "F-419", "F-420", "F-424", "F-425", "F-426", "F-427", "F-428", "F-429", "F-430", "F-431", "F-432", "F-433", "F-434", "F-435", "F-436", "F-437", "F-438", "F-439", "F-440", "F-441", "F-442", "F-443", "F-444", "F-445", "F-446", "F-447", "F-448", "F-449", "F-450"];
+const codigosBiografias = ["B-013", "B-014", "B-015", "B-016", "B-017", "B-018", "B-019", "B-020", "B-021", "B-022", "B-023", "B-024", "B-025", "B-026", "B-027", "B-028", "B-031", "B-032", "B-034", "B-035", "B-036", "B-037", "B-038", "B-040", "B-042", "B-047", "B-049", "B-050", "B-051", "B-052", "B-053", "B-054", "B-001", "B-002", "B-003", "B-004", "B-005", "B-006", "B-007", "B-008", "B-009", "B-010", "B-011", "B-012"];
+
+const mapSubcategorias = [
+    { nombre: "Inicial", codigos: codigosInicial },
+    { nombre: "Primaria", codigos: codigosPrimaria },
+    { nombre: "Secundaria", codigos: codigosSecundaria },
+    { nombre: "Festividades", codigos: codigosFestividades },
+    { nombre: "Biografías", codigos: codigosBiografias }
+];
+
+async function seed() {
+    try {
+        console.log("== BUSCANDO CATEGORÍAS ==");
+        const resCat = await API.get('/categories');
+        const categorias = resCat.data;
+        const catLaminas = categorias.find(c => c.nombre.toLowerCase().includes('láminas') || c.nombre.toLowerCase().includes('laminas'));
+
+        if (!catLaminas) {
+            console.error("❌ No se encontró la categoría 'Láminas' en Mongo. Imprimiendo las categorias que si existen:");
+            console.error(categorias.map(c => c.nombre));
+            return;
+        }
+        console.log(`✅ Categoría Láminas encontrada: ${catLaminas._id || catLaminas.id}`);
+
+        console.log("== BUSCANDO SUBCATEGORÍAS ==");
+        const resSub = await API.get('/subcategories');
+        const subcategorias = resSub.data;
+
+        for (const grupo of mapSubcategorias) {
+            const subName = grupo.nombre.toLowerCase();
+            const subMongo = subcategorias.find(s => s.nombre.toLowerCase() === subName || s.nombre.toLowerCase() === subName.replace('í', 'i'));
+
+            if (!subMongo) {
+                console.error(`❌ No se encontró la subcategoría '${grupo.nombre}' en Mongo. ¿Las creaste?`);
+                continue;
+            }
+            console.log(`\n⏳ Empezando inyección de ${grupo.codigos.length} láminas para: ${grupo.nombre} (${subMongo._id || subMongo.id})`);
+
+            let creadas = 0;
+            let omitidas = 0;
+
+            for (const codigo of grupo.codigos) {
+                const payload = {
+                    item: codigo,
+                    titulo: `Lámina ${codigo}`,
+                    categoria: catLaminas._id || catLaminas.id,
+                    subcategoria: subMongo._id || subMongo.id
+                };
+
+                try {
+                    await API.post('/products', payload);
+                    creadas++;
+                } catch (err) {
+                    if (err.response?.status === 400 || String(err.response?.data?.message).includes('duplicate')) {
+                        omitidas++;
+                    } else {
+                        console.error(`Error en lámina ${codigo}:`, err.response?.data || err.message);
+                    }
+                }
+            }
+            console.log(`✅ ${grupo.nombre}: ${creadas} insertadas, ${omitidas} omitidas (ya existían o chocaron con algo).`);
+        }
+
+        console.log("\n🎉 ¡INYECCIÓN MASIVA FINALIZADA SATISFACTORIAMENTE! 🎉");
+    } catch (error) {
+        console.error("Error global:", error.response?.data || error.message);
+    }
+}
+
+seed();

@@ -21,6 +21,7 @@ import AdminProductos from './pages/Admin/AdminProductos/AdminProductos'
 import AdminLaminas from './pages/Admin/AdminLaminas/AdminLaminas'
 import AdminProductoForm from './pages/Admin/AdminProductoForm/AdminProductoForm'
 import AdminLaminaForm from './pages/Admin/AdminLaminaForm/AdminLaminaForm'
+import AdminPedidos from './pages/Admin/AdminPedidos/AdminPedidos' // NUEVO COMPONENTE MAESTRO
 import Proximamente from './pages/Proximamente/Proximamente'
 
 function App() {
@@ -57,8 +58,8 @@ function App() {
           <Route path="/admin/vendedores" element={<AdminLayout><AdminVendedores /></AdminLayout>} />
           <Route path="/admin/distribuidores" element={<AdminLayout><AdminDistribuidores /></AdminLayout>} />
 
-          {/* Rutas en Construcción */}
-          <Route path="/admin/pedidos" element={<AdminLayout><Proximamente modulo="Pedidos" /></AdminLayout>} />
+          {/* Módulo Histórico de Pedidos */}
+          <Route path="/admin/pedidos" element={<AdminLayout><AdminPedidos /></AdminLayout>} />
         </Route>
 
         {/* ── Rutas públicas (con Header y Footer) ── */}

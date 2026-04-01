@@ -12,29 +12,23 @@ const codigosPrimaria = ["P-01", "P-02", "P-03", "P-04", "P-05", "P-06", "P-07",
 
 const codigosSecundaria = ["S-1", "S-2", "S-3", "S-4", "S-5", "S-6", "S-7", "S-8", "S-9", "S-10", "S-11", "S-12", "S-13", "S-14", "S-15", "S-16", "S-17", "S-18", "S-19", "S-20", "S-21", "S-22", "S-23", "S-24", "S-25", "S-26", "S-205", "S-206", "S-207", "S-208", "S-209", "S-212", "S-222", "S-223", "S-224", "S-225", "S-301", "S-302", "S-303", "S-304", "S-305", "S-306", "S-307", "S-308", "S-309", "S-310", "S-404", "S-405", "S-406"];
 
-const codigosFestividades = ["F-02", "F-03", "F-04", "F-09", "F-016", "F-017", "F-018", "F-022", "F-023", "F-024", "F-025", "F-029", "F-030", "F-031", "F-032", "F-033", "F-034", "F-035", "F-036", "F-037", "F-038", "F-039", "F-041", "F-042", "F-101", "F-102", "F-103", "F-104", "F-105", "F-106", "F-107", "F-108", "F-201", "F-202", "F-203", "F-204", "F-205", "F-206", "F-207", "F-208", "F-209", "F-210", "F-211", "F-212", "F-213", "F-214", "F-215", "F-216", "F-217", "F-301", "F-302", "F-303", "F-305", "F-306", "F-307", "F-308", "F-309", "F-310", "F-314", "F-316", "F-317", "F-320", "F-325", "F-326", "F-327", "F-328", "F-329", "F-330", "F-331", "F-332", "F-333", "F-334", "F-335", "F-336", "F-404", "F-405", "F-406", "F-407", "F-408", "F-409", "F-410", "F-411", "F-412", "F-413", "F-414", "F-415", "F-416", "F-417", "F-418", "F-419", "F-420", "F-424", "F-425", "F-426", "F-427", "F-428", "F-429", "F-430", "F-431", "F-432", "F-433", "F-434", "F-435", "F-436", "F-437", "F-438", "F-439", "F-440", "F-441", "F-442", "F-443", "F-444", "F-445", "F-446", "F-447", "F-448", "F-449", "F-450"];
-
-const codigosBiografias = ["B-013", "B-014", "B-015", "B-016", "B-017", "B-018", "B-019", "B-020", "B-021", "B-022", "B-023", "B-024", "B-025", "B-026", "B-027", "B-028", "B-031", "B-032", "B-034", "B-035", "B-036", "B-037", "B-038", "B-040", "B-042", "B-047", "B-049", "B-050", "B-051", "B-052", "B-053", "B-054", "B-001", "B-002", "B-003", "B-004", "B-005", "B-006", "B-007", "B-008", "B-009", "B-010", "B-011", "B-012"];
+const codigosFestividades = ["F-02", "F-03", "F-04", "F-09", "F-016", "F-017", "F-018", "F-022", "F-023", "F-024", "F-025", "F-029", "F-030", "F-031", "F-032", "F-033", "F-034", "F-035", "F-036", "F-037", "F-038", "F-039", "F-041", "F-042", "F-101", "F-102", "F-103", "F-104", "F-105", "F-106", "F-107", "F-108", "F-201", "F-202", "F-203", "F-204", "F-205", "F-206", "F-207", "F-208", "F-209", "F-210", "F-211", "F-212", "F-213", "F-214", "F-215", "F-216", "F-217", "F-301", "F-302", "F-303", "F-305", "F-306", "F-307", "F-308", "F-309", "F-310", "F-314", "F-316", "F-317", "F-320", "F-325", "F-326", "F-327", "F-328", "F-329", "F-330", "F-331", "F-332", "F-333", "F-334", "F-335", "F-336", "F-404", "F-405", "F-406", "F-407", "F-408", "F-409", "F-410", "F-411", "F-412", "F-413", "F-414", "F-415", "F-416", "F-417", "F-418", "F-419", "F-420", "F-424", "F-425", "F-426", "F-427", "F-428", "F-429", "F-430", "F-431", "F-432", "F-433", "F-434", "F-435", "F-436", "F-437", "F-438", "F-439", "F-440", "F-441", "F-442", "F-443", "F-444", "F-445", "F-446", "F-447", "F-448", "F-449", "F-450", "B-013", "B-014", "B-015", "B-016", "B-017", "B-018", "B-019", "B-020", "B-021", "B-022", "B-023", "B-024", "B-025", "B-026", "B-027", "B-028", "B-031", "B-032", "B-034", "B-035", "B-036", "B-037", "B-038", "B-040", "B-042", "B-047", "B-049", "B-050", "B-051", "B-052", "B-053", "B-054", "B-001", "B-002", "B-003", "B-004", "B-005", "B-006", "B-007", "B-008", "B-009", "B-010", "B-011", "B-012"];
 
 export const laminasMock = [
     {
-        subcategoria: { _id: "65f1a2b3c4d5e6f7a8b9c0f1", nombre: "Inicial", orden: 1 },
-        laminas: generarLaminas("65f1a2b3c4d5e6f7a8b9c0f1", codigosInicial),
+        subcategoria: { _id: "69a32c4d8d2eb908f670eef2", nombre: "Inicial", orden: 1 },
+        laminas: generarLaminas("69a32c4d8d2eb908f670eef2", codigosInicial),
     },
     {
-        subcategoria: { _id: "65f1a2b3c4d5e6f7a8b9c0f2", nombre: "Primaria", orden: 2 },
-        laminas: generarLaminas("65f1a2b3c4d5e6f7a8b9c0f2", codigosPrimaria),
+        subcategoria: { _id: "69a32c548d2eb908f670eef5", nombre: "Primaria", orden: 2 },
+        laminas: generarLaminas("69a32c548d2eb908f670eef5", codigosPrimaria),
     },
     {
-        subcategoria: { _id: "65f1a2b3c4d5e6f7a8b9c0f3", nombre: "Secundaria", orden: 3 },
-        laminas: generarLaminas("65f1a2b3c4d5e6f7a8b9c0f3", codigosSecundaria),
+        subcategoria: { _id: "69a32c598d2eb908f670eef8", nombre: "Secundaria", orden: 3 },
+        laminas: generarLaminas("69a32c598d2eb908f670eef8", codigosSecundaria),
     },
     {
-        subcategoria: { _id: "65f1a2b3c4d5e6f7a8b9c0f4", nombre: "Festividades", orden: 4 },
-        laminas: generarLaminas("65f1a2b3c4d5e6f7a8b9c0f4", codigosFestividades),
-    },
-    {
-        subcategoria: { _id: "65f1a2b3c4d5e6f7a8b9c0f5", nombre: "Biografías", orden: 5 },
-        laminas: generarLaminas("65f1a2b3c4d5e6f7a8b9c0f5", codigosBiografias),
-    },
+        subcategoria: { _id: "69a32c5d8d2eb908f670eefb", nombre: "Festividades", orden: 4 },
+        laminas: generarLaminas("69a32c5d8d2eb908f670eefb", codigosFestividades),
+    }
 ];

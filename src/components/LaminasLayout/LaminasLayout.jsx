@@ -1,18 +1,49 @@
 import "./LaminasLayout.scss";
 import { useOrder } from "../../context/OrderContext";
-import { laminasMock } from "../../data/laminasMock";
+import { useProducts } from "../../context/ProductContext";
+
+// IDs reales de Mongo para las 4 subcategorías de Láminas (en orden correcto)
+const ORDEN_SUBCATEGORIAS = [
+    "69a32c4d8d2eb908f670eef2", // Inicial
+    "69a32c548d2eb908f670eef5", // Primaria
+    "69a32c598d2eb908f670eef8", // Secundaria
+    "69a32c5d8d2eb908f670eefb", // Festividades
+];
+
+const ID_CAT_LAMINAS = "69a32c068d2eb908f670eeef";
 
 function LaminasLayout() {
     const { cantidades, updateCantidad } = useOrder();
+    const { products, loading } = useProducts();
 
-    const laminasPorSubcategoria = laminasMock;
+    // Filtramos solo láminas y las agrupamos por subcategoría en el orden correcto
+    const laminasPorSubcategoria = (() => {
+        const soloLaminas = products.filter(p => {
+            const catId = typeof p.categoria === "object" ? p.categoria?._id : p.categoria;
+            return catId === ID_CAT_LAMINAS;
+        });
+
+        return ORDEN_SUBCATEGORIAS.map(subId => {
+            const laminasDelGrupo = soloLaminas.filter(p => {
+                const pSubId = typeof p.subcategoria === "object" ? p.subcategoria?._id : p.subcategoria;
+                return pSubId === subId;
+            });
+
+            if (laminasDelGrupo.length === 0) return null;
+
+            const subObj = typeof laminasDelGrupo[0].subcategoria === "object"
+                ? laminasDelGrupo[0].subcategoria
+                : { _id: subId, nombre: subId };
+
+            return { subcategoria: subObj, laminas: laminasDelGrupo };
+        }).filter(Boolean);
+    })();
 
     const handleCantidadChange = (laminaId, value) => {
         updateCantidad(laminaId, value);
-    }
+    };
 
     const handleKeyDown = (e) => {
-        // Obtenemos los atributos que nos dirán en qué categoría y fila estamos
         const numFilas = parseInt(e.target.dataset.filas);
         const totalSub = parseInt(e.target.dataset.total);
         const localIndex = parseInt(e.target.dataset.index);
@@ -21,28 +52,23 @@ function LaminasLayout() {
             e.preventDefault();
             const inputs = Array.from(document.querySelectorAll(".lamina-item-cantidad"));
             const currentIndex = inputs.indexOf(e.target);
-            if (currentIndex !== -1 && currentIndex + 1 < inputs.length) {
-                inputs[currentIndex + 1].focus();
-            }
+            if (currentIndex !== -1 && currentIndex + 1 < inputs.length) inputs[currentIndex + 1].focus();
         } else if (e.key === "ArrowUp") {
             e.preventDefault();
             const inputs = Array.from(document.querySelectorAll(".lamina-item-cantidad"));
             const currentIndex = inputs.indexOf(e.target);
-            if (currentIndex > 0) {
-                inputs[currentIndex - 1].focus();
-            }
+            if (currentIndex > 0) inputs[currentIndex - 1].focus();
         } else if (e.key === "ArrowRight") {
             const nextIndex = localIndex + numFilas;
-            if (nextIndex < totalSub) { // Verificamos que no se salga de la categoría
+            if (nextIndex < totalSub) {
                 e.preventDefault();
                 const inputs = Array.from(document.querySelectorAll(".lamina-item-cantidad"));
                 const globalCurrentIndex = inputs.indexOf(e.target);
-                // El salto global es el mismo salto local
                 inputs[globalCurrentIndex + numFilas].focus();
             }
         } else if (e.key === "ArrowLeft") {
             const prevIndex = localIndex - numFilas;
-            if (prevIndex >= 0) { // Verificamos que no retroceda más allá del inicio de la categoría
+            if (prevIndex >= 0) {
                 e.preventDefault();
                 const inputs = Array.from(document.querySelectorAll(".lamina-item-cantidad"));
                 const globalCurrentIndex = inputs.indexOf(e.target);
@@ -52,22 +78,23 @@ function LaminasLayout() {
     };
 
     const calcularTotalSub = (laminasLista) =>
-        laminasLista.reduce((acc, lam) => acc + (cantidades[lam.id] || 0), 0);
+        laminasLista.reduce((acc, lam) => acc + (cantidades[lam._id] || 0), 0);
 
+    if (loading) return <p style={{ padding: "20px" }}>Cargando láminas...</p>;
 
     return (
         <>
             <div className="laminas-subactegorias-layout">
                 {laminasPorSubcategoria.map((subcategoria) => {
-                    const numCols = 10
-                    const numFilas = Math.ceil(subcategoria.laminas.length / numCols)
-                    const subId = subcategoria.subcategoria._id
+                    const numCols = 10;
+                    const numFilas = Math.ceil(subcategoria.laminas.length / numCols);
+                    const subId = subcategoria.subcategoria._id;
                     return (
                         <div key={subId} className="laminas-subcategorias">
                             <h2 className="laminas-subactegorias-titulo">{subcategoria.subcategoria.nombre}</h2>
                             <div className="laminas-grid" style={{ gridTemplateRows: `repeat(${numFilas}, auto)` }}>
                                 {subcategoria.laminas.map((lamina, index) => (
-                                    <div key={lamina.id} className="lamina-item">
+                                    <div key={lamina._id} className="lamina-item">
                                         <span className="lamina-item-code">{lamina.item}</span>
                                         <input
                                             type="number"
@@ -75,8 +102,8 @@ function LaminasLayout() {
                                             data-index={index}
                                             data-filas={numFilas}
                                             data-total={subcategoria.laminas.length}
-                                            value={cantidades[lamina.id] || ""}
-                                            onChange={(e) => handleCantidadChange(lamina.id, e.target.value)}
+                                            value={cantidades[lamina._id] || ""}
+                                            onChange={(e) => handleCantidadChange(lamina._id, e.target.value)}
                                             onKeyDown={handleKeyDown}
                                         />
                                     </div>
@@ -89,7 +116,7 @@ function LaminasLayout() {
                                 </span>
                             </div>
                         </div>
-                    )
+                    );
                 })}
             </div>
         </>

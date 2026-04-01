@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import './AdminUserModal.scss';
-import ubigeo from "ubigeo-peru"; // NUEVO: Importamos para la cascada del ubigeo
+import ubigeo from "ubigeo-peru";
+import axiosInstance from '../../config/axios'; // NUEVO: Importar axios para traer vendedores
 
 function AdminUserModal({ isOpen, onClose, onSubmit, initialData, tipo }) {
     const isEditing = !!initialData;
@@ -23,8 +24,24 @@ function AdminUserModal({ isOpen, onClose, onSubmit, initialData, tipo }) {
         distrito: '',
         direccion: '',
         agencia: '',
-        referencia: ''
+        referencia: '',
+        // --- VENTAS ---
+        vendedor_asignado: '' // NUEVO
     });
+
+    const [vendedoresOptions, setVendedoresOptions] = useState([]); // Estado para guardar la lista de Vendedores
+
+    // Fetch de Vendedores para el select
+    useEffect(() => {
+        if (tipo === 'DISTRIBUIDOR' && isOpen) {
+            axiosInstance.get('/users') // Ajusta el endpoint real si difiere en tu server
+                .then(res => {
+                    const soloVendedores = res.data.filter(u => u.role === 'VENDEDOR');
+                    setVendedoresOptions(soloVendedores);
+                })
+                .catch(err => console.error("Error cargando vendedores", err));
+        }
+    }, [tipo, isOpen]);
 
     useEffect(() => {
         if (isOpen) {
@@ -45,7 +62,9 @@ function AdminUserModal({ isOpen, onClose, onSubmit, initialData, tipo }) {
                     distrito: initialData.distrito || '',
                     direccion: initialData.direccion || '',
                     agencia: initialData.agencia || '',
-                    referencia: initialData.referencia || ''
+                    referencia: initialData.referencia || '',
+                    // Si vendedor_asignado viene poblado (objeto), sacamos su _id o id. Si es string, se usa directo.
+                    vendedor_asignado: initialData.vendedor_asignado?._id || initialData.vendedor_asignado?.id || initialData.vendedor_asignado || ''
                 });
             } else {
                 setFormData({
@@ -54,7 +73,8 @@ function AdminUserModal({ isOpen, onClose, onSubmit, initialData, tipo }) {
                     role: tipo === 'VENDEDOR' ? 'VENDEDOR' : 'USER',
                     activo: true,
                     departamento: '', provincia: '', distrito: '',
-                    direccion: '', agencia: '', referencia: ''
+                    direccion: '', agencia: '', referencia: '',
+                    vendedor_asignado: ''
                 });
             }
         }
@@ -202,6 +222,20 @@ function AdminUserModal({ isOpen, onClose, onSubmit, initialData, tipo }) {
                                     <input type="checkbox" name="activo" checked={formData.activo} onChange={handleChange} />
                                     <span>{formData.activo ? 'Distribuidor Activo' : 'Cuenta Suspendida'}</span>
                                 </label>
+                            </div>
+                        )}
+
+                        {tipo === 'DISTRIBUIDOR' && (
+                            <div className="form-group" style={{ flex: 1 }}>
+                                <label>Vendedor Asignado</label>
+                                <select name="vendedor_asignado" value={formData.vendedor_asignado} onChange={handleChange}>
+                                    <option value="">Ninguno (Venta Directa)</option>
+                                    {vendedoresOptions.map(vend => (
+                                        <option key={vend.id || vend._id} value={vend.id || vend._id}>
+                                            {vend.nombre} {vend.apellidos}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
                         )}
                     </div>

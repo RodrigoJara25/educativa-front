@@ -95,7 +95,7 @@ function CategoriaDetalle() {
 
                         {/* Lista de productos / laminas condicional */}
                         {categoriaActiva.nombre === "Láminas Educativas" ? (
-                            <LaminasDetalle productos={productosDeCategoria} />
+                            <LaminasDetalle productos={productosDeCategoria.filter(p => p.fotoLamina)} />
                         ) : (
                             // Lista de productos
                             <div className="productos-grid">

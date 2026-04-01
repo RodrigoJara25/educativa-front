@@ -162,22 +162,26 @@ function AdminPedidos() {
                 const pid = obtenerIdPuro(p.producto_id || p.id || p._id);
                 const prodReal = catalogoProductos.find(cp => obtenerIdPuro(cp) === pid);
 
-                const nombreCat = prodReal?.categoria?.nombre || prodReal?.categoria || 'Sin Categoría';
+                // Normalizamos el nombre de la categoría para buscar el precio
+                const rawCat = prodReal?.categoria?.nombre || prodReal?.categoria || 'Sin Categoría';
+                const nombreCat = rawCat.trim().toLowerCase() === 'láminas educativas'.toLowerCase()
+                    ? 'Láminas Educativas'
+                    : rawCat;
+
                 const precio = preciosCategorias[nombreCat] || 0;
 
-                // Importante: Conservamos el producto_id original (sea string u objeto) para no romper el backend
                 return {
-                    ...p,
-                    precioUnitario: precio,
-                    subtotal: precio * (p.cantidad || 0),
-                    categoria: nombreCat
+                    producto_id: pid,      // ID limpio como texto
+                    cantidad: p.cantidad || 0,
+                    precio_unitario: precio // Snake case para el Backend
                 };
             });
-            const nuevoMontoTotal = pActualizados.reduce((acc, p) => acc + (p.subtotal || 0), 0);
+
+            const nuevoMontoTotal = pActualizados.reduce((acc, p) => acc + (p.precio_unitario * p.cantidad), 0);
 
             await axiosInstance.put(`/orders/${pedidoSeleccionado._id || pedidoSeleccionado.id}`, {
                 productos: pActualizados,
-                montoTotal: nuevoMontoTotal,
+                monto_total: nuevoMontoTotal, // Snake case para el Backend
                 estado: 'COTIZADO'
             });
 

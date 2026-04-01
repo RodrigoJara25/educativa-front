@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import "./PedidosDistribuidoresDatos.scss";
 import PageSection from "../PageSection/PageSection";
 import pedidosdistribuidores from "../../assets/headers/pedidosdistribuidores.svg";
@@ -8,6 +9,36 @@ function PedidosDistribuidoresDatos({ onContinuar }) {
     const { distribuidor, setDistribuidor } = useOrder();
 
     const data = ubigeo.reniec;
+
+    // 1. Efecto inicial: Cargar la sesión guardada al iniciar el pedido
+    useEffect(() => {
+        // Solo pre-cargamos si el distribuidor en el contexto está vacío
+        // Así evitamos borrar sus cambios si el usuario "retrocede" de pestaña
+        if (!distribuidor.nombre && !distribuidor.ruc) {
+            const userDataString = localStorage.getItem('usuario_educativa');
+            if (userDataString) {
+                try {
+                    const userData = JSON.parse(userDataString);
+                    // 2. Mapeo Mágico: Traducimos del Backend al Frontend State
+                    setDistribuidor(prev => ({
+                        ...prev,
+                        nombre: userData.nombre || "",
+                        ruc: userData.ruc_dni || "",       // Traducción ruc_dni -> ruc
+                        telefono: userData.celular || "",  // Traducción celular -> telefono
+                        email: userData.email || "",
+                        departamento: userData.departamento || "",
+                        provincia: userData.provincia || "",
+                        distrito: userData.distrito || "",
+                        direccion: userData.direccion || "",
+                        agencia: userData.agencia || "",
+                        referencia: userData.referencia || ""
+                    }));
+                } catch (error) {
+                    console.error("Error leyendo sesión del Distribuidor", error);
+                }
+            }
+        }
+    }, []); // Se ejecuta solo la primera vez que se renderiza el paso 1
 
     // Helper para actualizar campos del distribuidor
     const handleChange = (e) => {

@@ -1,14 +1,15 @@
 import { useRef } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { useCategories } from "../../context/CategoryContext";
+import { useNavigate } from "react-router-dom"; // Importamos enrutador
 import "swiper/css";
 import "./CategoriesCarrusel.scss";
 
 function CategoriesCarrusel() {
 
     const { categorias } = useCategories();
-
     const swiperRef = useRef(null);
+    const navigate = useNavigate();
 
     return (
         <div className="categories-carousel">
@@ -33,7 +34,15 @@ function CategoriesCarrusel() {
                     spaceBetween={15}       // Esto quita el margin-right
                 >
                     {categorias.map((categoria, i) => (
-                        <SwiperSlide key={i} className="categories-slide">
+                        <SwiperSlide
+                            key={i}
+                            className="categories-slide"
+                            onClick={() => {
+                                window.scrollTo({ top: 0, behavior: 'smooth' });
+                                navigate(`/categoria/${categoria._id || categoria.id}`);
+                            }}
+                            style={{ cursor: 'pointer' }}
+                        >
                             <img src={categoria.fotoPortada} alt={`Categoría ${i + 1}`} />
                         </SwiperSlide>
                     ))}

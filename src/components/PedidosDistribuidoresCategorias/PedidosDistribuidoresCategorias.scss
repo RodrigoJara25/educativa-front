@@ -1,77 +1,67 @@
 .div-pedidos-distribuidores-categorias {
     width: 100%;
-    padding: 40px 0 40px 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    box-sizing: border-box;
+    /* Previene el desbordamiento hacia la derecha */
+    padding: 40px 30px;
     background-color: #D3DA3D;
-    border-radius: 25px;
+    border-radius: 20px;
     margin-bottom: 20px;
 
-    .carrusel-wrapper {
+    .categorias-grid {
         display: flex;
-        align-items: center;
-        gap: 8px;
+        flex-wrap: wrap;
+        justify-content: center;
+        /* Centrado perfecto para la última fila incompleta */
+        gap: 25px;
         width: 100%;
 
-        .carrusel-btn {
-            flex-shrink: 0;
-            /* el botón no se achica */
-            background: none;
-            border: none;
-            font-size: 40px;
+        .grid-item {
+            width: 180px;
+            /* Ancho fijo ligeramente mayor para que no se compriman */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 15px;
             cursor: pointer;
-            color: #7AB433;
-            line-height: 1;
-            padding: 0 4px;
+            transition: all 0.3s ease;
+
+            /* Un diseño de tarjeta blanco y limpio para presentar los logos elegante y uniformemente */
+            background: #ffffff;
+            padding: 25px 20px;
+            border-radius: 16px;
+            border: 2px solid transparent;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
 
             &:hover {
-                color: #0db534;
+                transform: translateY(-5px);
+                border-color: #7AB433;
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
             }
-        }
 
-        .carrusel-track {
-            display: flex;
-            gap: 38px;
-            overflow-x: hidden;
-            /* oculta el scrollbar */
-            scroll-behavior: smooth;
-            flex: 1;
-            /* ocupa todo el espacio entre los botones */
+            .cat-imagen {
+                width: 100%;
+                /* Aumentamos la altura de los logos para mucha mayor legibilidad visual */
+                height: 110px;
+                object-fit: contain;
+                padding: 0;
+            }
 
-            .carrusel-item {
-                flex-shrink: 0;
-                /* los items no se comprimen */
-                width: 140px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                gap: 6px;
-                cursor: pointer;
-
-                &:first-child {
-                    margin-left: 10px;
-                }
-
-                &:last-child {
-                    margin-right: 20px;
-                }
-
-                .cat-imagen {
-                    width: 140px;
-                    height: 200px;
-                    background-color: #d4edda;
-                    border: 1px solid #7AB433;
-                }
-
-                .cat-nombre {
-                    font-size: 12px;
-                    text-align: center;
-                    font-weight: bold;
-                    color: #333;
-                    margin: 0;
-                }
+            .cat-nombre {
+                font-size: 16px;
+                /* Texto una talla más grande */
+                text-align: center;
+                font-weight: 800;
+                color: #2c3e50;
+                margin: 0;
+                line-height: 1.3;
             }
         }
     }
+}
+
+.bloque-inferior-carrusel {
+    width: 100%;
+    margin: 0;
+    padding: 0;
 }

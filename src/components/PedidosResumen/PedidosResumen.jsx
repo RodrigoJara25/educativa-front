@@ -88,7 +88,15 @@ function PedidosResumen({ onRetroceder, onContinuar }) {
             items: laminasMock.reduce((acc, sub) => {
                 acc.push({ tipo: 'etiqueta', nombre: sub.subcategoria.nombre.toUpperCase() });
                 sub.laminas.forEach(lam => {
-                    acc.push({ tipo: 'item', item: lam.item, cantidad: cantidades[lam.id] || 0 });
+                    // BUSCAMOS EL ID REAL DE MONGO QUE TIENE ESTE ITEM (CÓDIGO)
+                    const productoReal = productos.find(p => p.item === lam.item);
+                    const idReal = productoReal?.id || productoReal?._id;
+
+                    acc.push({
+                        tipo: 'item',
+                        item: lam.item,
+                        cantidad: idReal ? (cantidades[idReal] || 0) : 0
+                    });
                 });
                 return acc;
             }, [])
@@ -120,21 +128,24 @@ function PedidosResumen({ onRetroceder, onContinuar }) {
         },
     ];
 
-    // Función para finalizar y ver el JSON
+    // Función para finalizar y enviar el pedido real al Backend
     const handleFinalizar = () => {
-        // Sacamos el ID del usuario distribuidor (quien está logueado y haciendo la compra)
-        const userStored = localStorage.getItem('user');
+        // Sacamos el ID del usuario distribuidor desde la llave correcta 'usuario_educativa'
+        const userStored = localStorage.getItem('usuario_educativa');
         const userParsed = userStored ? JSON.parse(userStored) : {};
+
+        // El ID puede venir como .id o ._id dependiendo del transform del backend
         const idComprador = userParsed.id || userParsed._id || distribuidor.id || distribuidor._id;
 
+        // Estructura exacta solicitada por el programador de Backend
         const pedidoFinal = {
             tipo_pedido: "DISTRIBUIDOR",
             comprador_id: idComprador,
-            onModel: "distribuidores",
+            onModel: "distribuidores", // En minúsculas y plural
             productos: Object.keys(cantidades)
                 .filter(id => cantidades[id] > 0)
                 .map(id => ({
-                    producto_id: id,
+                    producto_id: id, // Llave exacta solicitada
                     cantidad: Number(cantidades[id])
                 }))
         };

@@ -14,11 +14,13 @@ const ID_CAT_LAMINAS = "69a32c068d2eb908f670eeef";
 
 function LaminasLayout() {
     const { cantidades, updateCantidad } = useOrder();
-    const { products, loading } = useProducts();
+    const { productos, loading } = useProducts();
 
     // Filtramos solo láminas y las agrupamos por subcategoría en el orden correcto
     const laminasPorSubcategoria = (() => {
-        const soloLaminas = products.filter(p => {
+        const listaFinal = productos || [];
+
+        const soloLaminas = listaFinal.filter(p => {
             const catId = typeof p.categoria === "object" ? p.categoria?._id : p.categoria;
             return catId === ID_CAT_LAMINAS;
         });
@@ -78,7 +80,7 @@ function LaminasLayout() {
     };
 
     const calcularTotalSub = (laminasLista) =>
-        laminasLista.reduce((acc, lam) => acc + (cantidades[lam._id] || 0), 0);
+        laminasLista.reduce((acc, lam) => acc + (cantidades[lam.id] || 0), 0);
 
     if (loading) return <p style={{ padding: "20px" }}>Cargando láminas...</p>;
 
@@ -93,21 +95,25 @@ function LaminasLayout() {
                         <div key={subId} className="laminas-subcategorias">
                             <h2 className="laminas-subactegorias-titulo">{subcategoria.subcategoria.nombre}</h2>
                             <div className="laminas-grid" style={{ gridTemplateRows: `repeat(${numFilas}, auto)` }}>
-                                {subcategoria.laminas.map((lamina, index) => (
-                                    <div key={lamina._id} className="lamina-item">
-                                        <span className="lamina-item-code">{lamina.item}</span>
-                                        <input
-                                            type="number"
-                                            className="lamina-item-cantidad"
-                                            data-index={index}
-                                            data-filas={numFilas}
-                                            data-total={subcategoria.laminas.length}
-                                            value={cantidades[lamina._id] || ""}
-                                            onChange={(e) => handleCantidadChange(lamina._id, e.target.value)}
-                                            onKeyDown={handleKeyDown}
-                                        />
-                                    </div>
-                                ))}
+                                {subcategoria.laminas.map((lamina, index) => {
+                                    const realId = lamina._id || lamina.id || lamina.item;
+
+                                    return (
+                                        <div key={`${realId}-${index}`} className="lamina-item">
+                                            <span className="lamina-item-code">{lamina.item}</span>
+                                            <input
+                                                type="number"
+                                                className="lamina-item-cantidad"
+                                                data-index={index}
+                                                data-filas={numFilas}
+                                                data-total={subcategoria.laminas.length}
+                                                value={cantidades[realId] || ""}
+                                                onChange={(e) => handleCantidadChange(realId, e.target.value)}
+                                                onKeyDown={handleKeyDown}
+                                            />
+                                        </div>
+                                    );
+                                })}
                             </div>
                             <div className="laminas-total">
                                 <span>TOTAL</span>

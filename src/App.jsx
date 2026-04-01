@@ -21,8 +21,7 @@ import AdminProductos from './pages/Admin/AdminProductos/AdminProductos'
 import AdminLaminas from './pages/Admin/AdminLaminas/AdminLaminas'
 import AdminProductoForm from './pages/Admin/AdminProductoForm/AdminProductoForm'
 import AdminLaminaForm from './pages/Admin/AdminLaminaForm/AdminLaminaForm'
-import AdminPedidos from './pages/Admin/AdminPedidos/AdminPedidos' // NUEVO COMPONENTE MAESTRO
-import Proximamente from './pages/Proximamente/Proximamente'
+import AdminPedidos from './pages/Admin/AdminPedidos/AdminPedidos'
 
 function App() {
   return (
@@ -72,7 +71,9 @@ function App() {
                 <Route path="/quienes-somos" element={<QuienesSomos />} />
                 <Route path="/nuestros-productos" element={<NuestrosProductos />} />
                 <Route path="/contactenos" element={<Contactenos />} />
-                <Route path="/pedidos-distribuidores" element={<PedidosDistribuidores />} />
+                <Route element={<ProtectedRoute allowedRoles={['DISTRIBUIDOR', 'ADMIN']} />}>
+                  <Route path="/pedidos-distribuidores" element={<PedidosDistribuidores />} />
+                </Route>
                 <Route path="/categoria/:id" element={<CategoriaDetalle />} />
               </Routes>
             </div>

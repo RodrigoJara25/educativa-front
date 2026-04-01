@@ -7,12 +7,23 @@ import pedidos_distribuidores from "../../assets/images/pedidos_distribuidores.p
 import contactenos from "../../assets/images/contactenos.png"
 import tiktok from "../../assets/images/tiktok-logo.png"
 import facebook from "../../assets/images/fb-logo.png"
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import ModalLogin from '../ModalLogin/ModalLogin'
 
 function NavBar() {
+
     const [modalAbierto, setModalAbierto] = useState(false);
+    const navigate = useNavigate()
+
+    const handlePedidosClick = () => {
+        const usuario = localStorage.getItem('usuario_educativa');
+        if (usuario) {
+            navigate('/pedidos-distribuidores');
+        } else {
+            setModalAbierto(true);
+        }
+    }
 
     return (
         <>
@@ -44,7 +55,7 @@ function NavBar() {
                         </li>
                         <li>
                             {/* Aca no es Link, ahora abre el modal */}
-                            <button className='btn-nav-pedidos' onClick={() => setModalAbierto(true)}>
+                            <button className='btn-nav-pedidos' onClick={handlePedidosClick}>
                                 <img src={pedidos_distribuidores} alt="pedidos-distribuidores" className='btn-nav' />
                             </button>
                         </li>

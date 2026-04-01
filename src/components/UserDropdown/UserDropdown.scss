@@ -1,0 +1,71 @@
+/* EL OVERLAY INVISIBLE PARA CERRAR */
+.dropdown-overlay {
+    position: fixed;
+    inset: 0; // Ocupa toda la pantalla de extremo a extremo
+    z-index: 99; // Queda justo debajo de nosotros
+}
+
+.user-dropdown-menu {
+    position: absolute;
+    top: 100px;
+
+    /* EL ARREGLO HORIZONTAL: Lo pegamos al borde derecho del UserCard */
+    right: 0px;
+
+    background-color: white;
+    min-width: 140px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 100;
+    border: 1px solid #eaeaea;
+
+    /* Flechita superior */
+    &::before {
+        content: "";
+        position: absolute;
+        top: -6px;
+
+        /* MOVIMOS LA FLECHA A LA DERECHA */
+        right: 30px;
+
+        width: 12px;
+        height: 12px;
+        background-color: white;
+        transform: rotate(45deg);
+        border-left: 1px solid #eaeaea;
+        border-top: 1px solid #eaeaea;
+    }
+
+    /*--- EL RESTO DE TUS BOTONES QUEDA EXACTAMENTE IGUAL ---*/
+    button {
+        background: none;
+        border: none;
+        padding: 12px 16px;
+        width: 100%;
+        text-align: left;
+        font-size: 14px;
+        font-weight: 500;
+        color: #333;
+        cursor: pointer;
+        transition: background-color 0.2s, color 0.2s;
+        position: relative;
+        z-index: 2;
+
+        &:hover {
+            background-color: #f7f9f3;
+            color: #7A9A37;
+        }
+
+        &.logout-btn {
+            border-top: 1px solid #f0f0f0;
+
+            &:hover {
+                background-color: #fff2f2;
+                color: #d32f2f;
+            }
+        }
+    }
+}

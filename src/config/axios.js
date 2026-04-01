@@ -23,10 +23,13 @@ axiosInstance.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response?.status === 401) {
-            console.error('No autorizado o token expirado. Cerrando sesión...');
-            // localStorage.removeItem('usuario_educativa');
-            // localStorage.removeItem('token_educativa');
-            // Opcional: window.location.href = '/'; 
+            console.error('Tu sesion ha expirado, por favor inicia sesion nuevamente');
+            localStorage.removeItem('usuario_educativa')
+            localStorage.removeItem('token_educativa')
+
+            alert('Tu sesión ha expirado por inactividad. Por favor, inicia sesión nuevamente.')
+
+            window.location.href = '/'
         }
         return Promise.reject(error);
     }

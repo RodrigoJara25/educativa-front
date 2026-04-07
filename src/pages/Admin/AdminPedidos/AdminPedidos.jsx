@@ -69,12 +69,26 @@ function AdminPedidos() {
     };
 
     const dataHub = ubigeo.reniec;
-    const resolverNombreUbigeo = (id, tipo) => {
+    const resolverNombreUbigeo = (id, tipo, depId = null, provId = null) => {
         if (!id) return '—';
         if (isNaN(id)) return id;
-        if (tipo === 'dep') return dataHub.find(d => d.departamento === id && d.provincia === "00")?.nombre || id;
-        if (tipo === 'prov') return dataHub.find(p => p.provincia === id && p.distrito === "00")?.nombre || id;
-        if (tipo === 'dist') return dataHub.find(d => d.distrito === id && d.provincia !== "00")?.nombre || id;
+
+        // Aseguramos que el ID tenga 2 dígitos (ej: "1" -> "01")
+        const padId = id.toString().padStart(2, '0');
+        const padDep = depId?.toString().padStart(2, '0');
+        const padProv = provId?.toString().padStart(2, '0');
+
+        if (tipo === 'dep') {
+            return dataHub.find(d => d.departamento === padId && d.provincia === "00")?.nombre || id;
+        }
+        if (tipo === 'prov' && padDep) {
+            // Buscamos la provincia DENTRO del departamento correcto
+            return dataHub.find(p => p.departamento === padDep && p.provincia === padId && p.distrito === "00")?.nombre || id;
+        }
+        if (tipo === 'dist' && padDep && padProv) {
+            // Buscamos el distrito DENTRO del departamento y provincia correctos
+            return dataHub.find(d => d.departamento === padDep && d.provincia === padProv && d.distrito === padId)?.nombre || id;
+        }
         return id;
     };
 
@@ -127,14 +141,18 @@ function AdminPedidos() {
         const ubi = comprador.ubicacion || {};
         const logi = comprador.logistica || {};
 
+        const dId = ubi.departamento || comprador.departamento;
+        const pId = ubi.provincia || comprador.provincia;
+        const disId = ubi.distrito || comprador.distrito;
+
         const dist = {
             nombre: comprador.nombre || "—",
             ruc: comprador.ruc_dni || "—",
             telefono: comprador.celular || "—",
             email: comprador.email || "—",
-            departamento: resolverNombreUbigeo(ubi.departamento || comprador.departamento, 'dep'),
-            provincia: resolverNombreUbigeo(ubi.provincia || comprador.provincia, 'prov'),
-            distrito: resolverNombreUbigeo(ubi.distrito || comprador.distrito, 'dist'),
+            departamento: resolverNombreUbigeo(dId, 'dep'),
+            provincia: resolverNombreUbigeo(pId, 'prov', dId),
+            distrito: resolverNombreUbigeo(disId, 'dist', dId, pId),
             direccion: ubi.direccion || comprador.direccion || "—",
             agencia: logi.agencia || comprador.agencia || "—",
             referencia: ubi.referencia || comprador.referencia || "—",
@@ -234,9 +252,9 @@ function AdminPedidos() {
                             <th>Ticket</th>
                             <th>Fecha</th>
                             <th>Comprador</th>
+                            <th>Vendedor</th>
                             <th>Monto</th>
                             <th>Estado</th>
-                            <th>Documentación</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -255,7 +273,8 @@ function AdminPedidos() {
                                         <td><strong>{idPedido.slice(-6).toUpperCase()}</strong></td>
                                         <td>{formatoFecha(pedido.fecha || pedido.createdAt)}</td>
                                         <td>{pedido.comprador?.nombre || '—'}</td>
-                                        <td style={{ fontWeight: 'bold' }}>S/ {(pedido.montoTotal || 0).toFixed(2)}</td>
+                                        <td>{pedido.vendedor?.nombre || '—'} {pedido.vendedor?.apellidos || ''}</td>
+                                        <td style={{ fontWeight: 'bold', whiteSpace: 'nowrap' }}>S/ {(pedido.monto_total || pedido.montoTotal || 0).toFixed(2)}</td>
                                         <td>
                                             <span style={{
                                                 padding: '4px 8px', borderRadius: '12px', fontSize: '10px', fontWeight: 'bold',
@@ -297,9 +316,36 @@ function AdminPedidos() {
                     <div className="modal-content" style={{ backgroundColor: 'white', padding: '25px', borderRadius: '12px', width: '95%', maxWidth: '850px', maxHeight: '90vh', overflowY: 'auto', position: 'relative' }}>
                         <button onClick={() => setPedidoSeleccionado(null)} style={{ position: 'absolute', top: '15px', right: '15px', border: 'none', background: 'none', fontSize: '24px', cursor: 'pointer', color: '#888' }}>&times;</button>
 
-                        <div style={{ marginBottom: '20px', borderBottom: '2px solid #7AB433', paddingBottom: '10px' }}>
-                            <h2 style={{ margin: 0, color: '#3a5a0a' }}>Cotización del Pedido #{(pedidoSeleccionado._id || pedidoSeleccionado.id).slice(-6).toUpperCase()}</h2>
-                            <p style={{ margin: 0, color: '#666' }}>Distribuidor: <strong>{pedidoSeleccionado.comprador?.nombre || '—'}</strong></p>
+                        <div style={{ marginBottom: '20px', borderBottom: '2px solid #7AB433', paddingBottom: '15px' }}>
+                            <h2 style={{ margin: '0 0 15px 0', color: '#3a5a0a', fontSize: '20px' }}>
+                                Orden de Compra #{(pedidoSeleccionado._id || pedidoSeleccionado.id).slice(-6).toUpperCase()}
+                            </h2>
+
+                            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '15px', background: '#f9f9f9', padding: '15px', borderRadius: '8px', border: '1px solid #eee' }}>
+                                <div>
+                                    <h4 style={{ margin: '0 0 5px 0', color: '#7AB433', fontSize: '12px', textTransform: 'uppercase' }}>👤 Distribuidor</h4>
+                                    <p style={{ margin: 0, fontSize: '13px' }}><strong>{pedidoSeleccionado.comprador?.nombre || '—'}</strong></p>
+                                    <p style={{ margin: 0, fontSize: '12px', color: '#666' }}>RUC/DNI: {pedidoSeleccionado.comprador?.ruc_dni || '—'}</p>
+                                    <p style={{ margin: 0, fontSize: '12px', color: '#666' }}>Tel: {pedidoSeleccionado.comprador?.celular || '—'}</p>
+                                    <p style={{ margin: 0, fontSize: '12px', color: '#666' }}>Email: {pedidoSeleccionado.comprador?.email || '—'}</p>
+                                </div>
+
+                                <div>
+                                    <h4 style={{ margin: '0 0 5px 0', color: '#7AB433', fontSize: '12px', textTransform: 'uppercase' }}>🤝 Vendedor</h4>
+                                    <p style={{ margin: 0, fontSize: '13px' }}><strong>{pedidoSeleccionado.vendedor?.nombre || '—'} {pedidoSeleccionado.vendedor?.apellidos || ''}</strong></p>
+                                    <p style={{ margin: 0, fontSize: '12px', color: '#666' }}>DNI: {pedidoSeleccionado.vendedor?.dni || '—'}</p>
+                                    <p style={{ margin: 0, fontSize: '12px', color: '#666' }}>Email: {pedidoSeleccionado.vendedor?.email || '—'}</p>
+                                </div>
+
+                                <div>
+                                    <h4 style={{ margin: '0 0 5px 0', color: '#7AB433', fontSize: '12px', textTransform: 'uppercase' }}>📍 Ubicación</h4>
+                                    <p style={{ margin: 0, fontSize: '12px', color: '#333' }}>
+                                        {`${resolverNombreUbigeo(pedidoSeleccionado.comprador?.departamento, 'dep')}, ${resolverNombreUbigeo(pedidoSeleccionado.comprador?.provincia, 'prov', pedidoSeleccionado.comprador?.departamento)}, ${resolverNombreUbigeo(pedidoSeleccionado.comprador?.distrito, 'dist', pedidoSeleccionado.comprador?.departamento, pedidoSeleccionado.comprador?.provincia)}`}
+                                    </p>
+                                    <p style={{ margin: 0, fontSize: '12px', color: '#666' }}>{pedidoSeleccionado.comprador?.direccion || '—'}</p>
+                                    <p style={{ margin: 0, fontSize: '11px', color: '#888', fontStyle: 'italic' }}>Ref: {pedidoSeleccionado.comprador?.referencia || '—'}</p>
+                                </div>
+                            </div>
                         </div>
 
                         <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>

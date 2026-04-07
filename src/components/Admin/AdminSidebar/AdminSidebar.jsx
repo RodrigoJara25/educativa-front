@@ -4,7 +4,7 @@ import logoHormiga from '../../../assets/images/logo.png'
 
 const navItems = [
     { label: 'Inicio', path: '/admin' },
-    { label: 'Productos', path: '/admin/productos' },
+    { label: 'Cuentos', path: '/admin/productos' },
     { label: 'Láminas', path: '/admin/laminas' },
     { label: 'Pedidos', path: '/admin/pedidos' },
     { label: 'Distribuidores', path: '/admin/distribuidores' },

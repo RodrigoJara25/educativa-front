@@ -12,13 +12,16 @@ function AdminProductos() {
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
-        // traemos la data en esta función
         const fetchProductos = async () => {
             try {
                 const res = await axiosInstance.get('/products')
-                setProductos(res.data)
+                // Filtramos para ignorar láminas ya que tienen su propia sección
+                const soloCuentos = res.data.filter(p =>
+                    p.categoria?.nombre !== 'Láminas Educativas'
+                )
+                setProductos(soloCuentos)
             } catch (error) {
-                console.error("Error al obtener los productos", error);
+                console.error("Error al obtener los cuentos", error);
             } finally {
                 setLoading(false)
             }
@@ -42,7 +45,7 @@ function AdminProductos() {
     const handleEliminar = async (id) => {
         const result = await Swal.fire({
             title: '¿Estás seguro?',
-            text: 'Este producto se eliminará permanentemente',
+            text: 'Este cuento se eliminará permanentemente',
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#e74c3c',
@@ -55,10 +58,10 @@ function AdminProductos() {
         try {
             await axiosInstance.delete(`/products/${id}`)
             setProductos(prev => prev.filter(p => p.id !== id))
-            Swal.fire('Eliminado', 'El producto ha sido eliminado', 'success')
+            Swal.fire('Eliminado', 'El cuento ha sido eliminado', 'success')
         } catch (error) {
-            console.error('Error al eliminar el producto:', error)
-            Swal.fire('Error', 'Hubo un error al eliminar el producto', 'error')
+            console.error('Error al eliminar el cuento:', error)
+            Swal.fire('Error', 'Hubo un error al eliminar el cuento', 'error')
         }
     }
 
@@ -67,14 +70,14 @@ function AdminProductos() {
 
             <div className="productos-header">
                 <h1 className="productos-titulo">
-                    Productos
+                    Cuentos
                     <span className="productos-count">({productosFiltrados.length})</span>
                 </h1>
                 <button
                     className="btn-agregar"
                     onClick={() => navigate('/admin/productos/nuevo')}
                 >
-                    + Agregar producto
+                    + Agregar cuento
                 </button>
             </div>
 
@@ -106,17 +109,16 @@ function AdminProductos() {
                     </thead>
                     <tbody>
                         {loading ? (
-                            <tr><td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>Cargando productos...</td></tr>
+                            <tr><td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>Cargando cuentos...</td></tr>
                         ) : productosFiltrados.length === 0 ? (
-                            <tr><td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>No hay productos creados aún.</td></tr>
+                            <tr><td colSpan="5" style={{ textAlign: "center", padding: "20px" }}>No hay cuentos creados aún.</td></tr>
                         ) : (
                             productosFiltrados.map(producto => (
-                                <tr key={producto.id}> {/* Usas .id gracias a tu DTO */}
+                                <tr key={producto.id}>
                                     <td className="td-item">{producto.item}</td>
                                     <td>{producto.titulo || producto.item}</td>
                                     <td>{producto.categoria?.nombre || 'Sin categoría'}</td>
                                     <td>
-                                        {/* Revisamos si existe la categoría antes de poner el css del badge */}
                                         {producto.categoria?.tipo && (
                                             <span className={`badge-tipo ${producto.categoria.tipo.toLowerCase()}`}>
                                                 {producto.categoria.tipo}

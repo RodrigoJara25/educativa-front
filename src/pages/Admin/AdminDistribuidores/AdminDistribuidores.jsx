@@ -138,7 +138,7 @@ function AdminDistribuidores() {
                 <table className="users-tabla">
                     <thead>
                         <tr>
-                            <th>Nombre</th><th>RUC / DNI</th><th>Celular</th><th>Email</th><th>Username</th><th>Estado</th><th>Acciones</th>
+                            <th>Nombre</th><th>RUC / DNI</th><th>Celular</th><th>Email</th><th>Username</th><th>Vendedor</th><th>Estado</th><th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -155,6 +155,7 @@ function AdminDistribuidores() {
                                     <td>{distribuidor.email}</td>
                                     {/* Muestra el username real o un guion si no lo tiene */}
                                     <td><strong>{distribuidor.username || '-'}</strong></td>
+                                    <td><strong>{distribuidor.vendedorAsignado?.nombre || '-'}</strong></td>
                                     <td>
                                         <button
                                             onClick={() => toggleActivo(distribuidor)}

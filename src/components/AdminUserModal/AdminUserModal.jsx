@@ -26,7 +26,7 @@ function AdminUserModal({ isOpen, onClose, onSubmit, initialData, tipo }) {
         agencia: '',
         referencia: '',
         // --- VENTAS ---
-        vendedor_asignado: '' // NUEVO
+        vendedorAsignado: '' // NUEVO
     });
 
     const [vendedoresOptions, setVendedoresOptions] = useState([]); // Estado para guardar la lista de Vendedores
@@ -63,8 +63,8 @@ function AdminUserModal({ isOpen, onClose, onSubmit, initialData, tipo }) {
                     direccion: initialData.direccion || '',
                     agencia: initialData.agencia || '',
                     referencia: initialData.referencia || '',
-                    // Si vendedor_asignado viene poblado (objeto), sacamos su _id o id. Si es string, se usa directo.
-                    vendedor_asignado: initialData.vendedor_asignado?._id || initialData.vendedor_asignado?.id || initialData.vendedor_asignado || ''
+                    // Si vendedorAsignado viene poblado (objeto), sacamos su _id o id. Si es string, se usa directo.
+                    vendedorAsignado: initialData.vendedorAsignado?._id || initialData.vendedorAsignado?.id || initialData.vendedorAsignado || ''
                 });
             } else {
                 setFormData({
@@ -74,7 +74,7 @@ function AdminUserModal({ isOpen, onClose, onSubmit, initialData, tipo }) {
                     activo: true,
                     departamento: '', provincia: '', distrito: '',
                     direccion: '', agencia: '', referencia: '',
-                    vendedor_asignado: ''
+                    vendedorAsignado: ''
                 });
             }
         }
@@ -228,7 +228,7 @@ function AdminUserModal({ isOpen, onClose, onSubmit, initialData, tipo }) {
                         {tipo === 'DISTRIBUIDOR' && (
                             <div className="form-group" style={{ flex: 1 }}>
                                 <label>Vendedor Asignado</label>
-                                <select name="vendedor_asignado" value={formData.vendedor_asignado} onChange={handleChange}>
+                                <select name="vendedorAsignado" value={formData.vendedorAsignado} onChange={handleChange}>
                                     <option value="">Ninguno (Venta Directa)</option>
                                     {vendedoresOptions.map(vend => (
                                         <option key={vend.id || vend._id} value={vend.id || vend._id}>
